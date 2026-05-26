@@ -1344,43 +1344,102 @@ label {
   font-weight: bold;
 }
 
-/* ===================================== */
+/* ======================================== */
 /* APR TABLE */
-/* ===================================== */
+/* ======================================== */
 
-.apr-table-wrapper {
+.apr-table-container {
+  width: 100%;
   overflow-x: auto;
-  border-radius: 20px;
   margin-top: 20px;
+  border-radius: 20px;
 }
 
 .apr-table {
-  width: 100%;
   border-collapse: collapse;
-  min-width: 1200px;
+  min-width: 1800px;
+  width: 100%;
+  background: #1e293b;
 }
 
 .apr-table th {
-  background: #1e293b;
-  color: white;
-  padding: 18px;
-  text-align: left;
-  font-size: 14px;
-  position: sticky;
-  top: 0;
+  background: #d6c89d;
+  color: #111827;
+  padding: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid #000;
+  text-align: center;
 }
 
 .apr-table td {
-  padding: 18px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid #444;
+  padding: 14px;
   vertical-align: top;
-  color: #f1f5f9;
-  font-size: 14px;
-  line-height: 1.5;
+  color: white;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
-.apr-table tr:hover {
-  background: rgba(255,255,255,0.03);
+.multiline-cell {
+  white-space: pre-line;
+  min-width: 180px;
+}
+
+.apr-table tr:nth-child(even) {
+  background: rgba(255,255,255,0.02);
+}
+
+/* ======================================== */
+/* RISK COLORS */
+/* ======================================== */
+
+.risk-badge {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.risk-badge.red {
+  background: #dc2626;
+  color: white;
+}
+
+.risk-badge.orange {
+  background: #ea580c;
+  color: white;
+}
+
+.risk-badge.yellow {
+  background: #facc15;
+  color: black;
+}
+
+.risk-badge.green {
+  background: #16a34a;
+  color: white;
+}
+
+/* ======================================== */
+/* SCENARIOS */
+/* ======================================== */
+
+.scenario-danger {
+  background: #dc2626;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.scenario-safe {
+  background: #16a34a;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: bold;
 }
 
 /* ===================================== */
