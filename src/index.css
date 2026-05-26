@@ -1522,3 +1522,24 @@ label {
 .risk-box.green {
   background: #00b050;
 }
+
+.risk-cell {
+  width: 70px;
+  min-width: 70px;
+}
+
+.risk-cell.red {
+  background: #ff0000;
+}
+
+.risk-cell.orange {
+  background: #ed7d31;
+}
+
+.risk-cell.yellow {
+  background: #ffff00;
+}
+
+.risk-cell.green {
+  background: #00b050;
+}

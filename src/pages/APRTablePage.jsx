@@ -975,14 +975,11 @@ function APRTablePage() {
 
           {/* RISKS */}
 
-          <td>
-
-  <div
-    className={`risk-box ${
-      row.initial_color?.toLowerCase()
-    }`}
-  />
-
+          <td
+  className={`risk-cell ${
+    row.initial_color?.toLowerCase()
+  }`}
+>
 </td>
 
           {/* EXISTING MEASURES */}
@@ -998,14 +995,11 @@ function APRTablePage() {
 
           {/* RESIDUAL RISK */}
 
-<td>
-
-  <div
-    className={`risk-box ${
-      row.residual_color?.toLowerCase()
-    }`}
-  />
-
+<td
+  className={`risk-cell ${
+    row.residual_color?.toLowerCase()
+  }`}
+>
 </td>
 
           {/* SCENARIO */}
