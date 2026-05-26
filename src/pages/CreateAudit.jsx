@@ -209,8 +209,10 @@ function CreateAudit() {
               inspectorName,
 
             audit_date:
-              new Date()
-                .toISOString(),
+  new Date()
+    .toISOString()
+    .slice(0, 19)
+    .replace("T", " "),
 
             checklist,
 
