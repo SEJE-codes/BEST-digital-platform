@@ -994,17 +994,23 @@ function APRTablePage() {
 
           <td>
 
-            <span
-              className={`risk-badge ${
-                row.residual_color?.toLowerCase()
-              }`}
-            >
+  <div
+    className={`risk-box ${
+      row.initial_color?.toLowerCase()
+    }`}
+  />
 
-              {row.residual_risk}
+</td>
 
-            </span>
+<td>
 
-          </td>
+  <div
+    className={`risk-box ${
+      row.initial_color?.toLowerCase()
+    }`}
+  />
+
+</td>
 
           {/* SCENARIO */}
 

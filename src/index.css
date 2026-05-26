@@ -1500,3 +1500,25 @@ label {
 .pdf-btn:hover {
   transform: translateY(-2px);
 }
+
+.risk-box {
+  width: 100%;
+  height: 60px;
+  border-radius: 4px;
+}
+
+.risk-box.red {
+  background: #ff0000;
+}
+
+.risk-box.orange {
+  background: #ed7d31;
+}
+
+.risk-box.yellow {
+  background: #ffff00;
+}
+
+.risk-box.green {
+  background: #00b050;
+}
