@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const API =
   import.meta.env.VITE_API_URL ||
-  "http://localhost:5000";
+  "https://best-backend-1.onrender.com/api/audits";
 
 function CreateAudit() {
 

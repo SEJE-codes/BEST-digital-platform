@@ -1078,11 +1078,10 @@ function APRTablePage() {
                               }
                             </td>
 
-                            <td>
-                              {
-                                row.existing_measures
-                              }
-                            </td>
+                            <td className="multiline-cell">
+  {String(row.existing_measures)
+    .replace(/-/g, "\n-")}
+</td>
 
                             <td>
 
