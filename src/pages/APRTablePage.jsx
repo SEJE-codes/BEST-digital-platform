@@ -975,9 +975,15 @@ function APRTablePage() {
 
           {/* RISKS */}
 
-          <td className="multiline-cell">
-            {row.risks}
-          </td>
+          <td>
+
+  <div
+    className={`risk-box ${
+      row.initial_color?.toLowerCase()
+    }`}
+  />
+
+</td>
 
           {/* EXISTING MEASURES */}
 
@@ -992,21 +998,11 @@ function APRTablePage() {
 
           {/* RESIDUAL RISK */}
 
-          <td>
-
-  <div
-    className={`risk-box ${
-      row.initial_color?.toLowerCase()
-    }`}
-  />
-
-</td>
-
 <td>
 
   <div
     className={`risk-box ${
-      row.initial_color?.toLowerCase()
+      row.residual_color?.toLowerCase()
     }`}
   />
 
