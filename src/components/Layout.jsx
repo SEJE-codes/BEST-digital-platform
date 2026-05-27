@@ -19,22 +19,22 @@ function Layout({
     },
 
     {
-      name: "Create Audit",
+      name: "Collecte de données",
       path: "/create-audit",
     },
 
     {
-      name: "Saved Audits",
+      name: "Données Collectées",
       path: "/saved-audits",
     },
 
     {
-      name: "Generate APR",
+      name: "Générer APR",
       path: "/apr",
     },
 
     {
-      name: "APR Reports",
+      name: "Rapports APR",
       path: "/apr-reports",
     },
 

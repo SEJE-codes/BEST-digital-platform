@@ -559,6 +559,7 @@ function APRTablePage() {
 
       setGeneratedTable(res.data.table || []);
       setReportId(res.data.reportId || null);
+      navigate("/apr-reports");
     } catch (error) {
       console.log(error);
 

@@ -341,7 +341,7 @@ function SavedAuditsPage() {
                     </button>
 
                     <a
-                      href={`${API}/api/audit-pdf/export/${audit.id}`}
+                      href={`${API}/api/pdf/export/${audit.id}`}
                       target="_blank"
                       rel="noreferrer"
                     >

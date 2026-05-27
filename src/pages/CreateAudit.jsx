@@ -371,7 +371,7 @@ function CreateAudit() {
                       {/* IMAGE */}
 
                       <img
-                        src={`${API}/uploads/${inspection.image}`}
+                        src={inspection.image}
                         alt=""
                         className="evidence-image"
                       />
