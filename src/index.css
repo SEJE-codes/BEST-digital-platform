@@ -1781,3 +1781,28 @@ label {
   border-radius:12px;
   margin-bottom:15px;
 }
+
+.saved-preview-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.saved-preview-image {
+  width: 95px;
+  height: 95px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #cbd5e1;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.saved-preview-info {
+  flex: 1;
+  color: #1e293b;
+}

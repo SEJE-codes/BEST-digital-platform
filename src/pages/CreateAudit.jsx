@@ -9,22 +9,17 @@ const API =
 
 function CreateAudit() {
 
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
   // ===================================
   // BASIC INFO
   // ===================================
 
-  const [
-    companyName,
-    setCompanyName,
-  ] = useState("");
+  const [companyName, setCompanyName] =
+    useState("");
 
-  const [
-    inspectorName,
-    setInspectorName,
-  ] = useState("");
+  const [inspectorName, setInspectorName] =
+    useState("");
 
   // ===================================
   // EQUIPMENT LIST
@@ -55,29 +50,27 @@ function CreateAudit() {
   // STATE
   // ===================================
 
-  const [
-    checklist,
-    setChecklist,
-  ] = useState(
+  const [checklist, setChecklist] =
+    useState(
 
-    equipmentList.map(
-      (equipment) => ({
+      equipmentList.map(
+        (equipment) => ({
 
-        equipment,
+          equipment,
 
-        inspections: [],
+          inspections: [],
 
-        currentInspection: {
+          currentInspection: {
 
-          image: "",
-          comment: "",
-          datetime: "",
+            image: "",
+            comment: "",
+            datetime: "",
 
-        },
+          },
 
-      })
-    )
-  );
+        })
+      )
+    );
 
   // ===================================
   // UPDATE CURRENT INSPECTION
@@ -90,14 +83,11 @@ function CreateAudit() {
       value
     ) => {
 
-      const updated =
-        [...checklist];
+      const updated = [...checklist];
 
       updated[
         equipmentIndex
-      ].currentInspection[
-        field
-      ] = value;
+      ].currentInspection[field] = value;
 
       setChecklist(updated);
     };
@@ -114,8 +104,7 @@ function CreateAudit() {
 
       if (!file) return;
 
-      const formData =
-        new FormData();
+      const formData = new FormData();
 
       formData.append(
         "image",
@@ -130,15 +119,13 @@ function CreateAudit() {
             formData
           );
 
-        const updated =
-          [...checklist];
+        const updated = [...checklist];
 
         updated[
           equipmentIndex
         ].currentInspection = {
 
-          image:
-            res.data.filename,
+          image: res.data.image,
 
           comment: "",
 
@@ -167,20 +154,15 @@ function CreateAudit() {
   const saveInspection =
     (equipmentIndex) => {
 
-      const updatedChecklist =
-        [...checklist];
+      const updated = [...checklist];
 
       const equipment =
-        updatedChecklist[
-          equipmentIndex
-        ];
+        updated[equipmentIndex];
 
       const current =
         equipment.currentInspection;
 
-      if (
-        !current.image
-      ) {
+      if (!current.image) {
 
         alert(
           "Ajoutez une image"
@@ -191,8 +173,7 @@ function CreateAudit() {
 
       equipment.inspections.push({
 
-        image:
-          current.image,
+        image: current.image,
 
         comment:
           current.comment || "",
@@ -210,9 +191,7 @@ function CreateAudit() {
 
       };
 
-      setChecklist(
-        updatedChecklist
-      );
+      setChecklist(updated);
     };
 
   // ===================================
@@ -225,8 +204,7 @@ function CreateAudit() {
       inspectionIndex
     ) => {
 
-      const updated =
-        [...checklist];
+      const updated = [...checklist];
 
       updated[
         equipmentIndex
@@ -239,14 +217,13 @@ function CreateAudit() {
     };
 
   // ===================================
-  // CANCEL CURRENT
+  // CANCEL CURRENT INSPECTION
   // ===================================
 
   const cancelCurrentInspection =
     (equipmentIndex) => {
 
-      const updated =
-        [...checklist];
+      const updated = [...checklist];
 
       updated[
         equipmentIndex
@@ -325,6 +302,8 @@ function CreateAudit() {
 
     <Layout title="Collecte des données">
 
+      {/* FORM */}
+
       <div className="card">
 
         <div className="form-grid">
@@ -332,7 +311,7 @@ function CreateAudit() {
           <input
             type="text"
             className="input"
-            placeholder="Nom entreprise"
+            placeholder="Nom de l'entreprise"
             value={companyName}
             onChange={(e) =>
               setCompanyName(
@@ -344,7 +323,7 @@ function CreateAudit() {
           <input
             type="text"
             className="input"
-            placeholder="Nom inspecteur"
+            placeholder="Nom de l'inspecteur"
             value={inspectorName}
             onChange={(e) =>
               setInspectorName(
@@ -356,6 +335,8 @@ function CreateAudit() {
         </div>
 
       </div>
+
+      {/* EQUIPMENT GRID */}
 
       <div className="equipment-grid">
 
@@ -374,7 +355,19 @@ function CreateAudit() {
                 {item.equipment}
               </h2>
 
-              <label className="btn">
+              {/* UPLOAD */}
+
+              <label
+                className="btn"
+                style={{
+                  display:
+                    "inline-block",
+                  cursor:
+                    "pointer",
+                  marginTop:
+                    "15px",
+                }}
+              >
 
                 Choisir une image
 
@@ -407,20 +400,12 @@ function CreateAudit() {
                   >
 
                     <img
-  src={inspection.image}
-  alt="Inspection"
-  className="saved-preview-image"
-/>
+                      src={`${API}/uploads/${inspection.image}`}
+                      alt=""
+                      className="saved-preview-image"
+                    />
 
                     <div className="saved-preview-info">
-
-                      <p>
-
-                        <strong>
-                          Image {index + 1}
-                        </strong>
-
-                      </p>
 
                       <p>
                         {inspection.comment}
@@ -448,25 +433,23 @@ function CreateAudit() {
                 )
               )}
 
-              {/* CURRENT */}
+              {/* CURRENT INSPECTION */}
 
-              {item.currentInspection
-                .image && (
+              {item.currentInspection.image && (
 
                 <div className="new-inspection-box">
 
                   <img
-  src={item.currentInspection.image}
-  alt="Inspection"
-  className="inspection-image"
-/>
+                    src={`${API}/uploads/${item.currentInspection.image}`}
+                    alt=""
+                    className="inspection-image"
+                  />
 
                   <textarea
                     className="textarea"
                     placeholder="Ajouter un commentaire..."
                     value={
-                      item.currentInspection
-                        .comment
+                      item.currentInspection.comment
                     }
                     onChange={(e) =>
                       updateCurrentInspection(
@@ -512,6 +495,8 @@ function CreateAudit() {
 
       </div>
 
+      {/* SAVE */}
+
       <div
         style={{
           marginTop: "40px",
@@ -523,9 +508,7 @@ function CreateAudit() {
           className="btn"
           onClick={saveAudit}
         >
-
           Enregistrer l'audit
-
         </button>
 
       </div>

@@ -9,24 +9,17 @@ import Layout from "../components/Layout";
 
 const API =
   import.meta.env.VITE_API_URL ||
-  "https://best-backend-1.onrender.com";
+  "http://localhost:5000";
 
 function SavedAuditsPage() {
 
-  const [
-    audits,
-    setAudits,
-  ] = useState([]);
+  const [audits, setAudits] =
+    useState([]);
 
   const [
     openedAudit,
     setOpenedAudit,
   ] = useState(null);
-
-  const [
-    loading,
-    setLoading,
-  ] = useState(true);
 
   // =====================================
   // FETCH
@@ -51,10 +44,6 @@ function SavedAuditsPage() {
       } catch (error) {
 
         console.log(error);
-
-      } finally {
-
-        setLoading(false);
       }
     };
 
@@ -71,14 +60,6 @@ function SavedAuditsPage() {
   const deleteAudit =
     async (id) => {
 
-      const confirmDelete =
-        window.confirm(
-          "Supprimer cet audit ?"
-        );
-
-      if (!confirmDelete)
-        return;
-
       try {
 
         await axios.delete(
@@ -90,7 +71,6 @@ function SavedAuditsPage() {
       } catch (error) {
 
         console.log(error);
-
       }
     };
 
@@ -118,197 +98,182 @@ function SavedAuditsPage() {
 
     <Layout title="Audits Sauvegardés">
 
-      <div className="container">
+      <div className="audit-grid">
 
-        {loading && (
-          <div className="loading-card">
-            Chargement...
-          </div>
-        )}
+        {audits.map(
+          (audit) => {
 
-        <div className="audit-grid">
+            const checklist =
+              parseChecklist(
+                audit.checklist
+              );
 
-          {audits.map(
-            (audit) => {
+            return (
 
-              const checklist =
-                parseChecklist(
-                  audit.checklist
-                );
+              <div
+                key={audit.id}
+                className="modern-card"
+              >
 
-              return (
+                <h2>
+                  {audit.company_name}
+                </h2>
 
-                <div
-                  key={audit.id}
-                  className="modern-card"
-                >
+                <p>
+                  Inspecteur :
+                  {" "}
+                  {
+                    audit.inspector_name
+                  }
+                </p>
 
-                  <div className="audit-header">
+                <div className="audit-actions">
 
-                    <div>
-
-                      <h2>
-                        {
-                          audit.company_name
-                        }
-                      </h2>
-
-                      <p>
-                        Inspecteur :
-                        {" "}
-                        {
-                          audit.inspector_name
-                        }
-                      </p>
-
-                    </div>
-
-                  </div>
-
-                  <div className="audit-actions">
-
-                    <button
-                      className="btn"
-                      onClick={() =>
-                        setOpenedAudit(
-                          openedAudit ===
-                            audit.id
-                            ? null
-                            : audit.id
-                        )
-                      }
-                    >
-
-                      {openedAudit ===
-                      audit.id
-                        ? "Hide"
-                        : "View"}
-
-                    </button>
-
-                    <button
-                      className="btn btn-danger"
-                      onClick={() =>
-                        deleteAudit(
+                  <button
+                    className="btn"
+                    onClick={() =>
+                      setOpenedAudit(
+                        openedAudit ===
                           audit.id
-                        )
-                      }
-                    >
+                          ? null
+                          : audit.id
+                      )
+                    }
+                  >
 
-                      Delete
+                    {openedAudit ===
+                    audit.id
+                      ? "Masquer"
+                      : "Voir"}
+
+                  </button>
+
+                  <a
+                    href={`${API}/api/pdf/export/${audit.id}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+
+                    <button className="btn btn-green">
+
+                      PDF
 
                     </button>
 
-                  </div>
+                  </a>
 
-                  {/* DETAILS */}
+                  <button
+                    className="btn btn-danger"
+                    onClick={() =>
+                      deleteAudit(
+                        audit.id
+                      )
+                    }
+                  >
 
-                  {openedAudit ===
-                    audit.id && (
+                    Supprimer
 
-                    <div className="equipment-list">
-
-                      {checklist.map(
-                        (
-                          item,
-                          index
-                        ) => (
-
-                          <div
-                            key={index}
-                            className="equipment-card"
-                          >
-
-                            <div className="equipment-top">
-
-                              <h3>
-                                {
-                                  item.equipment
-                                }
-                              </h3>
-
-                              <div className="equipment-badge">
-
-                                {
-                                  item.inspections
-                                    ?.length || 0
-                                }
-                                {" "}
-                                Evidence(s)
-
-                              </div>
-
-                            </div>
-
-                            {/* INSPECTIONS */}
-
-                            {item.inspections &&
-                              item.inspections.map(
-                                (
-                                  inspection,
-                                  i
-                                ) => (
-
-                                  <div
-                                    key={i}
-                                    className="saved-preview-card"
-                                  >
-
-                                    <img
-  src={inspection.image}
-  alt="Inspection"
-  className="saved-inspection-image"
-/>
-
-                                    <div className="saved-preview-info">
-
-                                      <p>
-
-                                        <strong>
-                                          Comment:
-                                        </strong>
-
-                                        {" "}
-
-                                        {
-                                          inspection.comment
-                                        }
-
-                                      </p>
-
-                                      <p>
-
-                                        <strong>
-                                          Date / Heure:
-                                        </strong>
-
-                                        {" "}
-
-                                        {
-                                          inspection.datetime
-                                        }
-
-                                      </p>
-
-                                    </div>
-
-                                  </div>
-                                )
-                              )}
-
-                          </div>
-                        )
-                      )}
-
-                    </div>
-                  )}
+                  </button>
 
                 </div>
-              );
-            }
-          )}
 
-        </div>
+                {/* DETAILS */}
+
+                {openedAudit ===
+                  audit.id && (
+
+                  <div className="equipment-list">
+
+                    {checklist.map(
+                      (
+                        item,
+                        index
+                      ) => (
+
+                        <div
+                          key={index}
+                          className="equipment-card"
+                        >
+
+                          <h3>
+                            {item.equipment}
+                          </h3>
+
+                          {item.inspections &&
+                          item.inspections.length > 0 ? (
+
+                            item.inspections.map(
+                              (
+                                inspection,
+                                i
+                              ) => (
+
+                                <div
+                                  key={i}
+                                  className="saved-inspection-card"
+                                >
+
+                                  {inspection.image && (
+
+                                    <img
+                                      src={`${API}/uploads/${inspection.image}`}
+                                      alt=""
+                                      className="saved-inspection-image"
+                                    />
+
+                                  )}
+
+                                  <p>
+
+                                    <strong>
+                                      Commentaire:
+                                    </strong>
+
+                                    {" "}
+
+                                    {
+                                      inspection.comment
+                                    }
+
+                                  </p>
+
+                                  <p>
+
+                                    <strong>
+                                      Date:
+                                    </strong>
+
+                                    {" "}
+
+                                    {
+                                      inspection.datetime
+                                    }
+
+                                  </p>
+
+                                </div>
+                              )
+                            )
+
+                          ) : (
+
+                            <p>
+                              Aucun élément inspecté
+                            </p>
+
+                          )}
+
+                        </div>
+                      )
+                    )}
+
+                  </div>
+                )}
+
+              </div>
+            );
+          }
+        )}
 
       </div>
 
