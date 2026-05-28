@@ -76,23 +76,53 @@ function CreateAudit() {
   // ===================================
 
   const saveInspection = (
-    equipmentIndex,
-    inspectionIndex
-  ) => {
+  equipmentIndex
+) => {
 
-    const updatedChecklist =
-      [...checklist];
+  const updatedChecklist =
+    [...checklist];
 
+  const equipment =
     updatedChecklist[
       equipmentIndex
-    ].inspections[
-      inspectionIndex
-    ].saved = true;
+    ];
 
-    setChecklist(updatedChecklist);
+  // CURRENT TEMP DATA
+  const current =
+    equipment.currentInspection;
 
-    alert("Inspection sauvegardée");
-  };
+  // VALIDATION
+  if (
+    !current.image ||
+    !current.comment
+  ) {
+    alert(
+      "Ajoutez image et commentaire"
+    );
+
+    return;
+  }
+
+  // ADD TO SAVED INSPECTIONS
+  equipment.inspections.push({
+    image: current.image,
+    comment: current.comment,
+    datetime:
+      current.datetime,
+  });
+
+  // RESET CURRENT INSPECTION
+  equipment.currentInspection =
+    {
+      image: "",
+      comment: "",
+      datetime: "",
+    };
+
+  setChecklist(
+    updatedChecklist
+  );
+};
 
   // ===================================
   // IMAGE UPLOAD
@@ -322,153 +352,130 @@ function CreateAudit() {
 
       {/* EQUIPMENT GRID */}
 
-      <div className="equipment-grid">
+      <div className="equipment-section">
 
-        {checklist.map(
-          (
-            item,
-            equipmentIndex
-          ) => (
+  {/* SAVED INSPECTIONS */}
 
-            <div
-              key={equipmentIndex}
-              className="equipment-card"
-            >
+  {item.inspections.map(
+    (
+      inspection,
+      index
+    ) => (
 
-              <h2>
-                {item.equipment}
-              </h2>
+      <div
+        key={index}
+        className="saved-preview-card"
+      >
 
-              <br />
-
-              {/* UPLOAD BUTTON */}
-
-              <label
-                className="btn"
-                style={{
-                  cursor: "pointer",
-                  display: "inline-block",
-                }}
-              >
-
-                Ajouter une image
-
-                <input
-                  type="file"
-                  hidden
-                  accept="image/*"
-                  capture="environment"
-                  onChange={(e) =>
-                    uploadImage(
-                      equipmentIndex,
-                      e.target.files[0]
-                    )
-                  }
-                />
-
-              </label>
-
-              <br />
-              <br />
-
-              {/* INSPECTIONS */}
-
-              {item.inspections.map(
-                (
-                  inspection,
-                  inspectionIndex
-                ) => (
-
-                  <div
-                    key={inspectionIndex}
-                    className="inspection-card"
-                  >
-
-                    {/* IMAGE */}
-
-                    {inspection.image && (
-
-                      <div className="inspection-image-box">
-
-                        <img
-                          src={`${API}/uploads/${inspection.image}`}
-                          alt="Inspection"
-                          className="inspection-image"
-                        />
-
-                      </div>
-                    )}
-
-                    {/* DATE */}
-
-                    <div className="inspection-date">
-
-                      <strong>
-                        Le:
-                      </strong>
-
-                      <p>
-                        {inspection.datetime}
-                      </p>
-
-                    </div>
-
-                    {/* COMMENT */}
-
-                    <textarea
-                      value={
-                        inspection.comment
-                      }
-                      onChange={(e) =>
-                        updateInspectionComment(
-                          equipmentIndex,
-                          inspectionIndex,
-                          e.target.value
-                        )
-                      }
-                      placeholder="Ajouter un commentaire..."
-                      className="inspection-textarea"
-                    />
-
-                    {/* ACTIONS */}
-
-                    <div className="inspection-actions">
-
-                      <button
-                        className="btn btn-danger"
-                        onClick={() =>
-                          removeInspection(
-                            equipmentIndex,
-                            inspectionIndex
-                          )
-                        }
-                      >
-                        Annuler
-                      </button>
-
-                      <button
-                        className="btn btn-green"
-                        onClick={() =>
-                          saveInspection(
-                            equipmentIndex,
-                            inspectionIndex
-                          )
-                        }
-                      >
-                        Sauvegarder
-                      </button>
-
-                    </div>
-
-                  </div>
+        <img
+          src={
+            inspection.image instanceof
+            File
+              ? URL.createObjectURL(
+                  inspection.image
                 )
-              )}
+              : `${API}/uploads/${inspection.image}`
+          }
+          alt=""
+          className="saved-preview-image"
+        />
 
-            </div>
-          )
-        )}
+        <div className="saved-preview-info">
+
+          <p>
+            <strong>
+              Image {index + 1}
+            </strong>
+          </p>
+
+          <p>
+            {
+              inspection.comment
+            }
+          </p>
+
+          <small>
+            {
+              inspection.datetime
+            }
+          </small>
+
+        </div>
 
       </div>
+    )
+  )}
+
+  {/* CURRENT INSPECTION */}
+
+  <div className="new-inspection-box">
+
+    {/* IMAGE */}
+
+    {item.currentInspection
+      ?.image && (
+
+      <img
+        src={
+          item.currentInspection
+            .image instanceof
+          File
+            ? URL.createObjectURL(
+                item
+                  .currentInspection
+                  .image
+              )
+            : `${API}/uploads/${item.currentInspection.image}`
+        }
+        alt=""
+        className="inspection-image"
+      />
+
+    )}
+
+    {/* COMMENT */}
+
+    <textarea
+      value={
+        item.currentInspection
+          ?.comment || ""
+      }
+      onChange={(e) =>
+        updateCurrentInspection(
+          equipmentIndex,
+          "comment",
+          e.target.value
+        )
+      }
+      placeholder="Commentaire..."
+    />
+
+    {/* ACTIONS */}
+
+    <div className="inspection-actions">
+
+      <button
+        className="btn btn-danger"
+      >
+        Annuler
+      </button>
+
+      <button
+        className="btn btn-green"
+        onClick={() =>
+          saveInspection(
+            equipmentIndex
+          )
+        }
+      >
+        Sauvegarder
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 
       {/* SAVE AUDIT */}
 
