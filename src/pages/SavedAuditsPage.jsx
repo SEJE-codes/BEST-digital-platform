@@ -9,7 +9,7 @@ import Layout from "../components/Layout";
 
 const API =
   import.meta.env.VITE_API_URL ||
-  "http://localhost:5000";
+  "https://best-backend-1.onrender.com";
 
 function SavedAuditsPage() {
 
@@ -29,7 +29,7 @@ function SavedAuditsPage() {
   ] = useState(true);
 
   // =====================================
-  // FETCH AUDITS
+  // FETCH
   // =====================================
 
   const fetchAudits =
@@ -52,8 +52,6 @@ function SavedAuditsPage() {
 
         console.log(error);
 
-        setAudits([]);
-
       } finally {
 
         setLoading(false);
@@ -75,7 +73,7 @@ function SavedAuditsPage() {
 
       const confirmDelete =
         window.confirm(
-          "Voulez-vous supprimer cet audit ?"
+          "Supprimer cet audit ?"
         );
 
       if (!confirmDelete)
@@ -93,14 +91,11 @@ function SavedAuditsPage() {
 
         console.log(error);
 
-        alert(
-          "Erreur de suppression"
-        );
       }
     };
 
   // =====================================
-  // PARSE CHECKLIST
+  // PARSE
   // =====================================
 
   const parseChecklist =
@@ -119,42 +114,17 @@ function SavedAuditsPage() {
       }
     };
 
-  // =====================================
-  // UI
-  // =====================================
-
   return (
 
     <Layout title="Audits Sauvegardés">
 
       <div className="container">
 
-        {/* LOADING */}
-
         {loading && (
-
           <div className="loading-card">
-
-            Chargement des audits...
-
+            Chargement...
           </div>
         )}
-
-        {/* EMPTY */}
-
-        {!loading &&
-          audits.length === 0 && (
-
-          <div className="empty-state">
-
-            <h2>
-              Aucun audit trouvé
-            </h2>
-
-          </div>
-        )}
-
-        {/* AUDITS */}
 
         <div className="audit-grid">
 
@@ -173,105 +143,27 @@ function SavedAuditsPage() {
                   className="modern-card"
                 >
 
-                  {/* HEADER */}
-
                   <div className="audit-header">
 
                     <div>
 
-                      <h2 className="audit-company">
-
+                      <h2>
                         {
                           audit.company_name
                         }
-
                       </h2>
 
-                      <p className="audit-inspector">
-
+                      <p>
                         Inspecteur :
                         {" "}
                         {
                           audit.inspector_name
                         }
-
-                      </p>
-
-                    </div>
-
-                    <div className="status-badge">
-
-                      Audit
-
-                    </div>
-
-                  </div>
-
-                  {/* DATE */}
-
-                  <div className="audit-meta">
-
-                    <div className="meta-box">
-
-                      <span>
-                        Date
-                      </span>
-
-                      <strong>
-
-                        {audit.audit_date
-                          ? new Date(
-                              audit.audit_date
-                            ).toLocaleDateString()
-                          : "N/A"}
-
-                      </strong>
-
-                    </div>
-
-                    <div className="meta-box">
-
-                      <span>
-                        Heure
-                      </span>
-
-                      <strong>
-
-                        {audit.audit_date
-                          ? new Date(
-                              audit.audit_date
-                            ).toLocaleTimeString()
-                          : "N/A"}
-
-                      </strong>
-
-                    </div>
-
-                  </div>
-
-                  {/* SUMMARY */}
-
-                  <div className="equipment-summary">
-
-                    <div className="summary-card">
-
-                      <h3>
-
-                        {
-                          checklist.length
-                        }
-
-                      </h3>
-
-                      <p>
-                        Equipements
                       </p>
 
                     </div>
 
                   </div>
-
-                  {/* ACTIONS */}
 
                   <div className="audit-actions">
 
@@ -294,20 +186,6 @@ function SavedAuditsPage() {
 
                     </button>
 
-                    <a
-                      href={`${API}/api/pdf/export/${audit.id}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-
-                      <button className="btn btn-green">
-
-                        PDF
-
-                      </button>
-
-                    </a>
-
                     <button
                       className="btn btn-danger"
                       onClick={() =>
@@ -323,9 +201,7 @@ function SavedAuditsPage() {
 
                   </div>
 
-                  {/* ================================= */}
-                  {/* AUDIT DETAILS */}
-                  {/* ================================= */}
+                  {/* DETAILS */}
 
                   {openedAudit ===
                     audit.id && (
@@ -343,16 +219,12 @@ function SavedAuditsPage() {
                             className="equipment-card"
                           >
 
-                            {/* EQUIPMENT */}
-
                             <div className="equipment-top">
 
                               <h3>
-
                                 {
                                   item.equipment
                                 }
-
                               </h3>
 
                               <div className="equipment-badge">
@@ -371,8 +243,6 @@ function SavedAuditsPage() {
                             {/* INSPECTIONS */}
 
                             {item.inspections &&
-                              item.inspections.length > 0 ? (
-
                               item.inspections.map(
                                 (
                                   inspection,
@@ -381,74 +251,16 @@ function SavedAuditsPage() {
 
                                   <div
                                     key={i}
-                                    className="view-evidence-card"
+                                    className="saved-preview-card"
                                   >
 
-                                    {/* IMAGE */}
+                                    <img
+                                      src={`${API}/uploads/${inspection.image}`}
+                                      alt=""
+                                      className="saved-preview-image"
+                                    />
 
-                                    {item.inspections &&
-  item.inspections.map(
-    (
-      inspection,
-      index
-    ) => (
-
-      <div
-        key={index}
-        className="saved-inspection-card"
-      >
-
-        {/* IMAGE */}
-
-        {inspection.image && (
-
-          <img
-            src={`${API}/uploads/${inspection.image}`}
-            alt="Inspection"
-            className="saved-inspection-image"
-          />
-
-        )}
-
-        {/* COMMENT */}
-
-        <div className="saved-comment">
-
-          <strong>
-            Commentaire:
-          </strong>
-
-          <p>
-            {
-              inspection.comment
-            }
-          </p>
-
-        </div>
-
-        {/* DATETIME */}
-
-        <div className="saved-date">
-
-          <strong>
-            Date/Heure:
-          </strong>
-
-          <p>
-            {
-              inspection.datetime
-            }
-          </p>
-
-        </div>
-
-      </div>
-    )
-)}
-
-                                    {/* DETAILS */}
-
-                                    <div className="view-details">
+                                    <div className="saved-preview-info">
 
                                       <p>
 
@@ -459,8 +271,7 @@ function SavedAuditsPage() {
                                         {" "}
 
                                         {
-                                          inspection.comment ||
-                                          "No comment"
+                                          inspection.comment
                                         }
 
                                       </p>
@@ -474,8 +285,7 @@ function SavedAuditsPage() {
                                         {" "}
 
                                         {
-                                          inspection.datetime ||
-                                          "N/A"
+                                          inspection.datetime
                                         }
 
                                       </p>
@@ -484,20 +294,7 @@ function SavedAuditsPage() {
 
                                   </div>
                                 )
-                              )
-
-                            ) : (
-
-                              <p
-                                style={{
-                                  marginTop: "10px",
-                                }}
-                              >
-
-                                Aucun élément inspecté
-
-                              </p>
-                            )}
+                              )}
 
                           </div>
                         )

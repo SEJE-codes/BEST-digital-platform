@@ -70,9 +70,7 @@ function CreateAudit() {
         currentInspection: {
 
           image: "",
-
           comment: "",
-
           datetime: "",
 
         },
@@ -140,7 +138,7 @@ function CreateAudit() {
         ].currentInspection = {
 
           image:
-            res.data.image,
+            res.data.filename,
 
           comment: "",
 
@@ -163,7 +161,7 @@ function CreateAudit() {
     };
 
   // ===================================
-  // SAVE SINGLE INSPECTION
+  // SAVE INSPECTION
   // ===================================
 
   const saveInspection =
@@ -180,21 +178,16 @@ function CreateAudit() {
       const current =
         equipment.currentInspection;
 
-      // VALIDATION
-
       if (
-        !current.image ||
-        !current.comment
+        !current.image
       ) {
 
         alert(
-          "Ajoutez une image et un commentaire"
+          "Ajoutez une image"
         );
 
         return;
       }
-
-      // SAVE INSPECTION
 
       equipment.inspections.push({
 
@@ -202,21 +195,17 @@ function CreateAudit() {
           current.image,
 
         comment:
-          current.comment,
+          current.comment || "",
 
         datetime:
           current.datetime,
 
       });
 
-      // RESET CURRENT INSPECTION
-
       equipment.currentInspection = {
 
         image: "",
-
         comment: "",
-
         datetime: "",
 
       };
@@ -227,7 +216,7 @@ function CreateAudit() {
     };
 
   // ===================================
-  // REMOVE SAVED INSPECTION
+  // REMOVE INSPECTION
   // ===================================
 
   const removeInspection =
@@ -250,7 +239,7 @@ function CreateAudit() {
     };
 
   // ===================================
-  // CANCEL CURRENT INSPECTION
+  // CANCEL CURRENT
   // ===================================
 
   const cancelCurrentInspection =
@@ -264,9 +253,7 @@ function CreateAudit() {
       ].currentInspection = {
 
         image: "",
-
         comment: "",
-
         datetime: "",
 
       };
@@ -334,65 +321,41 @@ function CreateAudit() {
       }
     };
 
-  // ===================================
-  // UI
-  // ===================================
-
   return (
 
     <Layout title="Collecte des données">
-
-      {/* FORM */}
 
       <div className="card">
 
         <div className="form-grid">
 
-          <div>
+          <input
+            type="text"
+            className="input"
+            placeholder="Nom entreprise"
+            value={companyName}
+            onChange={(e) =>
+              setCompanyName(
+                e.target.value
+              )
+            }
+          />
 
-            <label>
-              Nom de l'entreprise
-            </label>
-
-            <input
-              type="text"
-              className="input"
-              placeholder="Exemple: BEST SARL"
-              value={companyName}
-              onChange={(e) =>
-                setCompanyName(
-                  e.target.value
-                )
-              }
-            />
-
-          </div>
-
-          <div>
-
-            <label>
-              Nom de l'inspecteur
-            </label>
-
-            <input
-              type="text"
-              className="input"
-              placeholder="Exemple: Sume Ekoti"
-              value={inspectorName}
-              onChange={(e) =>
-                setInspectorName(
-                  e.target.value
-                )
-              }
-            />
-
-          </div>
+          <input
+            type="text"
+            className="input"
+            placeholder="Nom inspecteur"
+            value={inspectorName}
+            onChange={(e) =>
+              setInspectorName(
+                e.target.value
+              )
+            }
+          />
 
         </div>
 
       </div>
-
-      {/* EQUIPMENT GRID */}
 
       <div className="equipment-grid">
 
@@ -407,29 +370,11 @@ function CreateAudit() {
               className="equipment-card"
             >
 
-              {/* TITLE */}
+              <h2>
+                {item.equipment}
+              </h2>
 
-              <div className="equipment-header">
-
-                <h2>
-                  {item.equipment}
-                </h2>
-
-              </div>
-
-              {/* CAMERA BUTTON */}
-
-              <label
-                className="btn"
-                style={{
-                  display:
-                    "inline-block",
-                  cursor:
-                    "pointer",
-                  marginBottom:
-                    "20px",
-                }}
-              >
+              <label className="btn">
 
                 Choisir une image
 
@@ -489,10 +434,6 @@ function CreateAudit() {
 
                     <button
                       className="btn btn-danger"
-                      style={{
-                        marginTop:
-                          "10px",
-                      }}
                       onClick={() =>
                         removeInspection(
                           equipmentIndex,
@@ -507,7 +448,7 @@ function CreateAudit() {
                 )
               )}
 
-              {/* CURRENT INSPECTION */}
+              {/* CURRENT */}
 
               {item.currentInspection
                 .image && (
@@ -571,8 +512,6 @@ function CreateAudit() {
 
       </div>
 
-      {/* SAVE AUDIT */}
-
       <div
         style={{
           marginTop: "40px",
@@ -582,11 +521,6 @@ function CreateAudit() {
 
         <button
           className="btn"
-          style={{
-            padding:
-              "16px 40px",
-            fontSize: "16px",
-          }}
           onClick={saveAudit}
         >
 
