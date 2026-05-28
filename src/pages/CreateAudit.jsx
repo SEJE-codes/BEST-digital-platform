@@ -370,11 +370,21 @@ function CreateAudit() {
 
                       {/* IMAGE */}
 
-                      <img
-                        src={inspection.image}
-                        alt=""
-                        className="evidence-image"
-                      />
+                      <div className="thumbnail-wrapper">
+
+  <img
+    src={`${API}/uploads/${inspection.image}`}
+    alt="Inspection"
+    className="thumbnail-image"
+    onClick={() =>
+      window.open(
+        `${API}/uploads/${inspection.image}`,
+        "_blank"
+      )
+    }
+  />
+
+</div>
 
                       {/* META */}
 
