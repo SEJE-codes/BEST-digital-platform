@@ -386,17 +386,65 @@ function SavedAuditsPage() {
 
                                     {/* IMAGE */}
 
-                                    <img
-                                      src={`${API}/uploads/${inspection.image}`}
-                                      alt=""
-                                      className="view-image"
-                                      onClick={() =>
-                                        window.open(
-                                          `${API}/uploads/${inspection.image}`,
-                                          "_blank"
-                                        )
-                                      }
-                                    />
+                                    {item.inspections &&
+  item.inspections.map(
+    (
+      inspection,
+      index
+    ) => (
+
+      <div
+        key={index}
+        className="saved-inspection-card"
+      >
+
+        {/* IMAGE */}
+
+        {inspection.image && (
+
+          <img
+            src={`${API}/uploads/${inspection.image}`}
+            alt="Inspection"
+            className="saved-inspection-image"
+          />
+
+        )}
+
+        {/* COMMENT */}
+
+        <div className="saved-comment">
+
+          <strong>
+            Commentaire:
+          </strong>
+
+          <p>
+            {
+              inspection.comment
+            }
+          </p>
+
+        </div>
+
+        {/* DATETIME */}
+
+        <div className="saved-date">
+
+          <strong>
+            Date/Heure:
+          </strong>
+
+          <p>
+            {
+              inspection.datetime
+            }
+          </p>
+
+        </div>
+
+      </div>
+    )
+)}
 
                                     {/* DETAILS */}
 

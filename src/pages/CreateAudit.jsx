@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const API =
   import.meta.env.VITE_API_URL ||
-  "https://best-backend-1.onrender.com/api/audits";
+  "https://best-backend-1.onrender.com";
 
 function CreateAudit() {
 
@@ -34,10 +34,10 @@ function CreateAudit() {
 
     "LOCAL HYDROCARBURE",
     "STEP",
-    "SALE MACHINE",
+    "SALLE MACHINE",
     "MAGAZIN",
     "GARAGE",
-    "INFIMERIE",
+    "INFIRMERIE",
     "PARKING",
     "BLOC ADMINISTRATIF",
     "COUR DE MANUTENTION",
@@ -70,6 +70,29 @@ function CreateAudit() {
       })
     )
   );
+
+  // ===================================
+  // SAVE SINGLE INSPECTION
+  // ===================================
+
+  const saveInspection = (
+    equipmentIndex,
+    inspectionIndex
+  ) => {
+
+    const updatedChecklist =
+      [...checklist];
+
+    updatedChecklist[
+      equipmentIndex
+    ].inspections[
+      inspectionIndex
+    ].saved = true;
+
+    setChecklist(updatedChecklist);
+
+    alert("Inspection sauvegardée");
+  };
 
   // ===================================
   // IMAGE UPLOAD
@@ -115,6 +138,8 @@ function CreateAudit() {
             new Date()
               .toLocaleString(),
 
+          saved: false,
+
         });
 
         setChecklist(updated);
@@ -124,7 +149,7 @@ function CreateAudit() {
         console.log(error);
 
         alert(
-          "Erreur de Chargement de l'image"
+          "Erreur de chargement de l'image"
         );
       }
     };
@@ -155,7 +180,7 @@ function CreateAudit() {
     };
 
   // ===================================
-  // REMOVE IMAGE
+  // REMOVE INSPECTION
   // ===================================
 
   const removeInspection =
@@ -192,7 +217,7 @@ function CreateAudit() {
         ) {
 
           alert(
-            "Veuillez remplire tous les champs"
+            "Veuillez remplir tous les champs"
           );
 
           return;
@@ -209,10 +234,10 @@ function CreateAudit() {
               inspectorName,
 
             audit_date:
-  new Date()
-    .toISOString()
-    .slice(0, 19)
-    .replace("T", " "),
+              new Date()
+                .toISOString()
+                .slice(0, 19)
+                .replace("T", " "),
 
             checklist,
 
@@ -220,7 +245,7 @@ function CreateAudit() {
         );
 
         alert(
-          "Enregistré:"
+          "Audit enregistré"
         );
 
         navigate(
@@ -245,12 +270,6 @@ function CreateAudit() {
 
     <Layout title="Collecte des données">
 
-      {/* HEADER */}
-
-      <div className="page-header">
-
-      </div>
-
       {/* FORM */}
 
       <div className="card">
@@ -260,13 +279,13 @@ function CreateAudit() {
           <div>
 
             <label>
-              Nom de L'entreprise
+              Nom de l'entreprise
             </label>
 
             <input
               type="text"
               className="input"
-              placeholder="exemple:BEST SARL"
+              placeholder="Exemple: BEST SARL"
               value={companyName}
               onChange={(e) =>
                 setCompanyName(
@@ -280,13 +299,13 @@ function CreateAudit() {
           <div>
 
             <label>
-              Nom de L'Inspecteur
+              Nom de l'inspecteur
             </label>
 
             <input
               type="text"
               className="input"
-              placeholder="exemple:Sume Ekoti"
+              placeholder="Exemple: Sume Ekoti"
               value={inspectorName}
               onChange={(e) =>
                 setInspectorName(
@@ -316,33 +335,29 @@ function CreateAudit() {
               className="equipment-card"
             >
 
-              {/* CARD HEADER */}
+              <h2>
+                {item.equipment}
+              </h2>
 
-              <div className="equipment-header">
+              <br />
 
-                <h3>
-                  {item.equipment}
-                </h3>
+              {/* UPLOAD BUTTON */}
 
-                <span className="badge">
+              <label
+                className="btn"
+                style={{
+                  cursor: "pointer",
+                  display: "inline-block",
+                }}
+              >
 
-                  {
-                    item.inspections.length
-                  } Images
-
-                </span>
-
-              </div>
-
-              {/* FILE INPUT */}
-
-              <div className="upload-section">
+                Ajouter une image
 
                 <input
                   type="file"
+                  hidden
                   accept="image/*"
                   capture="environment"
-                  className="input"
                   onChange={(e) =>
                     uploadImage(
                       equipmentIndex,
@@ -351,75 +366,73 @@ function CreateAudit() {
                   }
                 />
 
-              </div>
+              </label>
 
-              {/* IMAGE GRID */}
+              <br />
+              <br />
 
-              <div className="evidence-grid">
+              {/* INSPECTIONS */}
 
-                {item.inspections.map(
-                  (
-                    inspection,
-                    inspectionIndex
-                  ) => (
+              {item.inspections.map(
+                (
+                  inspection,
+                  inspectionIndex
+                ) => (
 
-                    <div
-                      key={inspectionIndex}
-                      className="evidence-card"
-                    >
+                  <div
+                    key={inspectionIndex}
+                    className="inspection-card"
+                  >
 
-                      {/* IMAGE */}
+                    {/* IMAGE */}
 
-                      <div className="thumbnail-wrapper">
+                    {inspection.image && (
 
-  <img
-    src={`${API}/uploads/${inspection.image}`}
-    alt="Inspection"
-    className="thumbnail-image"
-    onClick={() =>
-      window.open(
-        `${API}/uploads/${inspection.image}`,
-        "_blank"
-      )
-    }
-  />
+                      <div className="inspection-image-box">
 
-</div>
-
-                      {/* META */}
-
-                      <div className="image-meta">
-
-                        <strong>
-                          Le:
-                        </strong>
-
-                        <br />
-
-                        {
-                          inspection.datetime
-                        }
+                        <img
+                          src={`${API}/uploads/${inspection.image}`}
+                          alt="Inspection"
+                          className="inspection-image"
+                        />
 
                       </div>
+                    )}
 
-                      {/* COMMENT */}
+                    {/* DATE */}
 
-                      <textarea
-                        className="textarea comment-box"
-                        placeholder="Ajouter un commentaire..."
-                        value={
-                          inspection.comment
-                        }
-                        onChange={(e) =>
-                          updateInspectionComment(
-                            equipmentIndex,
-                            inspectionIndex,
-                            e.target.value
-                          )
-                        }
-                      />
+                    <div className="inspection-date">
 
-                      {/* REMOVE */}
+                      <strong>
+                        Le:
+                      </strong>
+
+                      <p>
+                        {inspection.datetime}
+                      </p>
+
+                    </div>
+
+                    {/* COMMENT */}
+
+                    <textarea
+                      value={
+                        inspection.comment
+                      }
+                      onChange={(e) =>
+                        updateInspectionComment(
+                          equipmentIndex,
+                          inspectionIndex,
+                          e.target.value
+                        )
+                      }
+                      placeholder="Ajouter un commentaire..."
+                      className="inspection-textarea"
+                    />
+
+                    {/* ACTIONS */}
+
+                    <div className="inspection-actions">
 
                       <button
                         className="btn btn-danger"
@@ -430,16 +443,26 @@ function CreateAudit() {
                           )
                         }
                       >
-
                         Annuler
+                      </button>
 
+                      <button
+                        className="btn btn-green"
+                        onClick={() =>
+                          saveInspection(
+                            equipmentIndex,
+                            inspectionIndex
+                          )
+                        }
+                      >
+                        Sauvegarder
                       </button>
 
                     </div>
-                  )
-                )}
 
-              </div>
+                  </div>
+                )
+              )}
 
             </div>
           )
@@ -447,7 +470,7 @@ function CreateAudit() {
 
       </div>
 
-      {/* SAVE */}
+      {/* SAVE AUDIT */}
 
       <div
         style={{
@@ -466,7 +489,7 @@ function CreateAudit() {
           onClick={saveAudit}
         >
 
-          Enregistrer
+          Enregistrer l'audit
 
         </button>
 
