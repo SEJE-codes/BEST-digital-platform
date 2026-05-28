@@ -407,10 +407,10 @@ function CreateAudit() {
                   >
 
                     <img
-                      src={`${API}/uploads/${inspection.image}`}
-                      alt=""
-                      className="saved-preview-image"
-                    />
+  src={inspection.image}
+  alt="Inspection"
+  className="saved-preview-image"
+/>
 
                     <div className="saved-preview-info">
 
@@ -456,10 +456,10 @@ function CreateAudit() {
                 <div className="new-inspection-box">
 
                   <img
-                    src={`${API}/uploads/${item.currentInspection.image}`}
-                    alt=""
-                    className="inspection-image"
-                  />
+  src={item.currentInspection.image}
+  alt="Inspection"
+  className="inspection-image"
+/>
 
                   <textarea
                     className="textarea"

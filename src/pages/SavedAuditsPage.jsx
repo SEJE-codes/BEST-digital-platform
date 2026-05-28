@@ -255,10 +255,10 @@ function SavedAuditsPage() {
                                   >
 
                                     <img
-                                      src={`${API}/uploads/${inspection.image}`}
-                                      alt=""
-                                      className="saved-preview-image"
-                                    />
+  src={inspection.image}
+  alt="Inspection"
+  className="saved-inspection-image"
+/>
 
                                     <div className="saved-preview-info">
 
