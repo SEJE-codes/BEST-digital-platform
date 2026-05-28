@@ -65,64 +65,44 @@ function CreateAudit() {
 
         equipment,
 
-        inspections: []
+        inspections: [],
+
+        currentInspection: {
+
+          image: "",
+
+          comment: "",
+
+          datetime: "",
+
+        },
 
       })
     )
   );
 
   // ===================================
-  // SAVE SINGLE INSPECTION
+  // UPDATE CURRENT INSPECTION
   // ===================================
 
-  const saveInspection = (
-  equipmentIndex
-) => {
+  const updateCurrentInspection =
+    (
+      equipmentIndex,
+      field,
+      value
+    ) => {
 
-  const updatedChecklist =
-    [...checklist];
+      const updated =
+        [...checklist];
 
-  const equipment =
-    updatedChecklist[
-      equipmentIndex
-    ];
+      updated[
+        equipmentIndex
+      ].currentInspection[
+        field
+      ] = value;
 
-  // CURRENT TEMP DATA
-  const current =
-    equipment.currentInspection;
-
-  // VALIDATION
-  if (
-    !current.image ||
-    !current.comment
-  ) {
-    alert(
-      "Ajoutez image et commentaire"
-    );
-
-    return;
-  }
-
-  // ADD TO SAVED INSPECTIONS
-  equipment.inspections.push({
-    image: current.image,
-    comment: current.comment,
-    datetime:
-      current.datetime,
-  });
-
-  // RESET CURRENT INSPECTION
-  equipment.currentInspection =
-    {
-      image: "",
-      comment: "",
-      datetime: "",
+      setChecklist(updated);
     };
-
-  setChecklist(
-    updatedChecklist
-  );
-};
 
   // ===================================
   // IMAGE UPLOAD
@@ -157,7 +137,7 @@ function CreateAudit() {
 
         updated[
           equipmentIndex
-        ].inspections.push({
+        ].currentInspection = {
 
           image:
             res.data.image,
@@ -168,9 +148,7 @@ function CreateAudit() {
             new Date()
               .toLocaleString(),
 
-          saved: false,
-
-        });
+        };
 
         setChecklist(updated);
 
@@ -185,32 +163,71 @@ function CreateAudit() {
     };
 
   // ===================================
-  // UPDATE COMMENT
+  // SAVE SINGLE INSPECTION
   // ===================================
 
-  const updateInspectionComment =
-    (
-      equipmentIndex,
-      inspectionIndex,
-      value
-    ) => {
+  const saveInspection =
+    (equipmentIndex) => {
 
-      const updated =
+      const updatedChecklist =
         [...checklist];
 
-      updated[
-        equipmentIndex
-      ]
-        .inspections[
-          inspectionIndex
-        ]
-        .comment = value;
+      const equipment =
+        updatedChecklist[
+          equipmentIndex
+        ];
 
-      setChecklist(updated);
+      const current =
+        equipment.currentInspection;
+
+      // VALIDATION
+
+      if (
+        !current.image ||
+        !current.comment
+      ) {
+
+        alert(
+          "Ajoutez une image et un commentaire"
+        );
+
+        return;
+      }
+
+      // SAVE INSPECTION
+
+      equipment.inspections.push({
+
+        image:
+          current.image,
+
+        comment:
+          current.comment,
+
+        datetime:
+          current.datetime,
+
+      });
+
+      // RESET CURRENT INSPECTION
+
+      equipment.currentInspection = {
+
+        image: "",
+
+        comment: "",
+
+        datetime: "",
+
+      };
+
+      setChecklist(
+        updatedChecklist
+      );
     };
 
   // ===================================
-  // REMOVE INSPECTION
+  // REMOVE SAVED INSPECTION
   // ===================================
 
   const removeInspection =
@@ -228,6 +245,31 @@ function CreateAudit() {
         inspectionIndex,
         1
       );
+
+      setChecklist(updated);
+    };
+
+  // ===================================
+  // CANCEL CURRENT INSPECTION
+  // ===================================
+
+  const cancelCurrentInspection =
+    (equipmentIndex) => {
+
+      const updated =
+        [...checklist];
+
+      updated[
+        equipmentIndex
+      ].currentInspection = {
+
+        image: "",
+
+        comment: "",
+
+        datetime: "",
+
+      };
 
       setChecklist(updated);
     };
@@ -352,130 +394,182 @@ function CreateAudit() {
 
       {/* EQUIPMENT GRID */}
 
-      <div className="equipment-section">
+      <div className="equipment-grid">
 
-  {/* SAVED INSPECTIONS */}
+        {checklist.map(
+          (
+            item,
+            equipmentIndex
+          ) => (
 
-  {item.inspections.map(
-    (
-      inspection,
-      index
-    ) => (
+            <div
+              key={equipmentIndex}
+              className="equipment-card"
+            >
 
-      <div
-        key={index}
-        className="saved-preview-card"
-      >
+              {/* TITLE */}
 
-        <img
-          src={
-            inspection.image instanceof
-            File
-              ? URL.createObjectURL(
-                  inspection.image
+              <div className="equipment-header">
+
+                <h2>
+                  {item.equipment}
+                </h2>
+
+              </div>
+
+              {/* CAMERA BUTTON */}
+
+              <label
+                className="btn"
+                style={{
+                  display:
+                    "inline-block",
+                  cursor:
+                    "pointer",
+                  marginBottom:
+                    "20px",
+                }}
+              >
+
+                Choisir une image
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  hidden
+                  onChange={(e) =>
+                    uploadImage(
+                      equipmentIndex,
+                      e.target.files[0]
+                    )
+                  }
+                />
+
+              </label>
+
+              {/* SAVED INSPECTIONS */}
+
+              {item.inspections.map(
+                (
+                  inspection,
+                  index
+                ) => (
+
+                  <div
+                    key={index}
+                    className="saved-preview-card"
+                  >
+
+                    <img
+                      src={`${API}/uploads/${inspection.image}`}
+                      alt=""
+                      className="saved-preview-image"
+                    />
+
+                    <div className="saved-preview-info">
+
+                      <p>
+
+                        <strong>
+                          Image {index + 1}
+                        </strong>
+
+                      </p>
+
+                      <p>
+                        {inspection.comment}
+                      </p>
+
+                      <small>
+                        {inspection.datetime}
+                      </small>
+
+                    </div>
+
+                    <button
+                      className="btn btn-danger"
+                      style={{
+                        marginTop:
+                          "10px",
+                      }}
+                      onClick={() =>
+                        removeInspection(
+                          equipmentIndex,
+                          index
+                        )
+                      }
+                    >
+                      Supprimer
+                    </button>
+
+                  </div>
                 )
-              : `${API}/uploads/${inspection.image}`
-          }
-          alt=""
-          className="saved-preview-image"
-        />
+              )}
 
-        <div className="saved-preview-info">
+              {/* CURRENT INSPECTION */}
 
-          <p>
-            <strong>
-              Image {index + 1}
-            </strong>
-          </p>
+              {item.currentInspection
+                .image && (
 
-          <p>
-            {
-              inspection.comment
-            }
-          </p>
+                <div className="new-inspection-box">
 
-          <small>
-            {
-              inspection.datetime
-            }
-          </small>
+                  <img
+                    src={`${API}/uploads/${item.currentInspection.image}`}
+                    alt=""
+                    className="inspection-image"
+                  />
 
-        </div>
+                  <textarea
+                    className="textarea"
+                    placeholder="Ajouter un commentaire..."
+                    value={
+                      item.currentInspection
+                        .comment
+                    }
+                    onChange={(e) =>
+                      updateCurrentInspection(
+                        equipmentIndex,
+                        "comment",
+                        e.target.value
+                      )
+                    }
+                  />
+
+                  <div className="inspection-actions">
+
+                    <button
+                      className="btn btn-danger"
+                      onClick={() =>
+                        cancelCurrentInspection(
+                          equipmentIndex
+                        )
+                      }
+                    >
+                      Annuler
+                    </button>
+
+                    <button
+                      className="btn btn-green"
+                      onClick={() =>
+                        saveInspection(
+                          equipmentIndex
+                        )
+                      }
+                    >
+                      Sauvegarder
+                    </button>
+
+                  </div>
+
+                </div>
+              )}
+
+            </div>
+          )
+        )}
 
       </div>
-    )
-  )}
-
-  {/* CURRENT INSPECTION */}
-
-  <div className="new-inspection-box">
-
-    {/* IMAGE */}
-
-    {item.currentInspection
-      ?.image && (
-
-      <img
-        src={
-          item.currentInspection
-            .image instanceof
-          File
-            ? URL.createObjectURL(
-                item
-                  .currentInspection
-                  .image
-              )
-            : `${API}/uploads/${item.currentInspection.image}`
-        }
-        alt=""
-        className="inspection-image"
-      />
-
-    )}
-
-    {/* COMMENT */}
-
-    <textarea
-      value={
-        item.currentInspection
-          ?.comment || ""
-      }
-      onChange={(e) =>
-        updateCurrentInspection(
-          equipmentIndex,
-          "comment",
-          e.target.value
-        )
-      }
-      placeholder="Commentaire..."
-    />
-
-    {/* ACTIONS */}
-
-    <div className="inspection-actions">
-
-      <button
-        className="btn btn-danger"
-      >
-        Annuler
-      </button>
-
-      <button
-        className="btn btn-green"
-        onClick={() =>
-          saveInspection(
-            equipmentIndex
-          )
-        }
-      >
-        Sauvegarder
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
 
       {/* SAVE AUDIT */}
 
