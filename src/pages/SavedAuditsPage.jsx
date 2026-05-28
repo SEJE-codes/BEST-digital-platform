@@ -9,7 +9,7 @@ import Layout from "../components/Layout";
 
 const API =
   import.meta.env.VITE_API_URL ||
-  "http://localhost:5000";
+  "https://best-backend-1.onrender.com";
 
 function SavedAuditsPage() {
 
@@ -199,68 +199,53 @@ function SavedAuditsPage() {
                             {item.equipment}
                           </h3>
 
-                          {item.inspections &&
-                          item.inspections.length > 0 ? (
+                          {item.inspections.map(
+                            (
+                              inspection,
+                              i
+                            ) => (
 
-                            item.inspections.map(
-                              (
-                                inspection,
-                                i
-                              ) => (
+                              <div
+                                key={i}
+                                className="saved-inspection-card"
+                              >
 
-                                <div
-                                  key={i}
-                                  className="saved-inspection-card"
-                                >
+                                <img
+                                  src={`${API}/uploads/${inspection.image}`}
+                                  alt=""
+                                  className="saved-inspection-image"
+                                />
 
-                                  {inspection.image && (
+                                <p>
 
-                                    <img
-                                      src={`${API}/uploads/${inspection.image}`}
-                                      alt=""
-                                      className="saved-inspection-image"
-                                    />
+                                  <strong>
+                                    Commentaire :
+                                  </strong>
 
-                                  )}
+                                  {" "}
 
-                                  <p>
+                                  {
+                                    inspection.comment
+                                  }
 
-                                    <strong>
-                                      Commentaire:
-                                    </strong>
+                                </p>
 
-                                    {" "}
+                                <p>
 
-                                    {
-                                      inspection.comment
-                                    }
+                                  <strong>
+                                    Date :
+                                  </strong>
 
-                                  </p>
+                                  {" "}
 
-                                  <p>
+                                  {
+                                    inspection.datetime
+                                  }
 
-                                    <strong>
-                                      Date:
-                                    </strong>
+                                </p>
 
-                                    {" "}
-
-                                    {
-                                      inspection.datetime
-                                    }
-
-                                  </p>
-
-                                </div>
-                              )
+                              </div>
                             )
-
-                          ) : (
-
-                            <p>
-                              Aucun élément inspecté
-                            </p>
-
                           )}
 
                         </div>

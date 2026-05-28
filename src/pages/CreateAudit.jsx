@@ -61,11 +61,9 @@ function CreateAudit() {
           inspections: [],
 
           currentInspection: {
-
             image: "",
             comment: "",
             datetime: "",
-
           },
 
         })
@@ -87,7 +85,8 @@ function CreateAudit() {
 
       updated[
         equipmentIndex
-      ].currentInspection[field] = value;
+      ].currentInspection[field] =
+        value;
 
       setChecklist(updated);
     };
@@ -104,7 +103,8 @@ function CreateAudit() {
 
       if (!file) return;
 
-      const formData = new FormData();
+      const formData =
+        new FormData();
 
       formData.append(
         "image",
@@ -116,16 +116,24 @@ function CreateAudit() {
         const res =
           await axios.post(
             `${API}/api/upload`,
-            formData
+            formData,
+            {
+              headers: {
+                "Content-Type":
+                  "multipart/form-data",
+              },
+            }
           );
 
-        const updated = [...checklist];
+        const updated =
+          [...checklist];
 
         updated[
           equipmentIndex
         ].currentInspection = {
 
-          image: res.data.image,
+          image:
+            res.data.image,
 
           comment: "",
 
@@ -154,13 +162,13 @@ function CreateAudit() {
   const saveInspection =
     (equipmentIndex) => {
 
-      const updated = [...checklist];
-
-      const equipment =
-        updated[equipmentIndex];
+      const updated =
+        [...checklist];
 
       const current =
-        equipment.currentInspection;
+        updated[
+          equipmentIndex
+        ].currentInspection;
 
       if (!current.image) {
 
@@ -171,19 +179,24 @@ function CreateAudit() {
         return;
       }
 
-      equipment.inspections.push({
+      updated[
+        equipmentIndex
+      ].inspections.push({
 
-        image: current.image,
+        image:
+          current.image,
 
         comment:
-          current.comment || "",
+          current.comment,
 
         datetime:
           current.datetime,
 
       });
 
-      equipment.currentInspection = {
+      updated[
+        equipmentIndex
+      ].currentInspection = {
 
         image: "",
         comment: "",
@@ -204,7 +217,8 @@ function CreateAudit() {
       inspectionIndex
     ) => {
 
-      const updated = [...checklist];
+      const updated =
+        [...checklist];
 
       updated[
         equipmentIndex
@@ -217,13 +231,14 @@ function CreateAudit() {
     };
 
   // ===================================
-  // CANCEL CURRENT INSPECTION
+  // CANCEL CURRENT
   // ===================================
 
   const cancelCurrentInspection =
     (equipmentIndex) => {
 
-      const updated = [...checklist];
+      const updated =
+        [...checklist];
 
       updated[
         equipmentIndex
@@ -259,6 +274,27 @@ function CreateAudit() {
           return;
         }
 
+        // IMPORTANT:
+        // ONLY SAVE EQUIPMENTS
+        // THAT HAVE INSPECTIONS
+
+        const filteredChecklist =
+          checklist.filter(
+            (item) =>
+              item.inspections.length > 0
+          );
+
+        if (
+          filteredChecklist.length === 0
+        ) {
+
+          alert(
+            "Ajoutez au moins une inspection"
+          );
+
+          return;
+        }
+
         await axios.post(
           `${API}/api/audits`,
           {
@@ -275,7 +311,8 @@ function CreateAudit() {
                 .slice(0, 19)
                 .replace("T", " "),
 
-            checklist,
+            checklist:
+              filteredChecklist,
 
           }
         );
@@ -336,7 +373,7 @@ function CreateAudit() {
 
       </div>
 
-      {/* EQUIPMENT GRID */}
+      {/* EQUIPMENT */}
 
       <div className="equipment-grid">
 
@@ -360,12 +397,9 @@ function CreateAudit() {
               <label
                 className="btn"
                 style={{
-                  display:
-                    "inline-block",
-                  cursor:
-                    "pointer",
-                  marginTop:
-                    "15px",
+                  marginTop: "15px",
+                  display: "inline-block",
+                  cursor: "pointer",
                 }}
               >
 
@@ -386,54 +420,7 @@ function CreateAudit() {
 
               </label>
 
-              {/* SAVED INSPECTIONS */}
-
-              {item.inspections.map(
-                (
-                  inspection,
-                  index
-                ) => (
-
-                  <div
-                    key={index}
-                    className="saved-preview-card"
-                  >
-
-                    <img
-                      src={`${API}/uploads/${inspection.image}`}
-                      alt=""
-                      className="saved-preview-image"
-                    />
-
-                    <div className="saved-preview-info">
-
-                      <p>
-                        {inspection.comment}
-                      </p>
-
-                      <small>
-                        {inspection.datetime}
-                      </small>
-
-                    </div>
-
-                    <button
-                      className="btn btn-danger"
-                      onClick={() =>
-                        removeInspection(
-                          equipmentIndex,
-                          index
-                        )
-                      }
-                    >
-                      Supprimer
-                    </button>
-
-                  </div>
-                )
-              )}
-
-              {/* CURRENT INSPECTION */}
+              {/* CURRENT */}
 
               {item.currentInspection.image && (
 
@@ -459,6 +446,12 @@ function CreateAudit() {
                       )
                     }
                   />
+
+                  <p>
+                    {
+                      item.currentInspection.datetime
+                    }
+                  </p>
 
                   <div className="inspection-actions">
 
@@ -487,6 +480,57 @@ function CreateAudit() {
                   </div>
 
                 </div>
+              )}
+
+              {/* SAVED */}
+
+              {item.inspections.map(
+                (
+                  inspection,
+                  index
+                ) => (
+
+                  <div
+                    key={index}
+                    className="saved-preview-card"
+                  >
+
+                    <img
+                      src={`${API}/uploads/${inspection.image}`}
+                      alt=""
+                      className="saved-preview-image"
+                    />
+
+                    <div className="saved-preview-info">
+
+                      <p>
+                        {
+                          inspection.comment
+                        }
+                      </p>
+
+                      <small>
+                        {
+                          inspection.datetime
+                        }
+                      </small>
+
+                    </div>
+
+                    <button
+                      className="btn btn-danger"
+                      onClick={() =>
+                        removeInspection(
+                          equipmentIndex,
+                          index
+                        )
+                      }
+                    >
+                      Supprimer
+                    </button>
+
+                  </div>
+                )
               )}
 
             </div>
