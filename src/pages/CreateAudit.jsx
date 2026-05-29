@@ -427,7 +427,7 @@ function CreateAudit() {
                 <div className="new-inspection-box">
 
                   <img
-  src={`${API}/${item.currentInspection.image}`}
+  src={`${API}/uploads/${item.currentInspection.image}`}
   alt="Inspection"
   className="inspection-image"
 />
@@ -496,7 +496,7 @@ function CreateAudit() {
                   >
 
                     <img
-  src={`${API}/${inspection.image}`}
+  src={`${API}/uploads/${inspection.image}`}
   alt="Inspection"
   className="saved-preview-image"
 />
