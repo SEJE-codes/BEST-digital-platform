@@ -60,12 +60,8 @@ function Layout({
         <div className="sidebar-top">
 
           <h2 className="brand">
-            QSHE PRO
+            BEST SARL
           </h2>
-
-          <p className="brand-subtitle">
-            Industrial Safety Platform
-          </p>
 
         </div>
 
