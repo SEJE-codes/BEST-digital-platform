@@ -427,10 +427,14 @@ function CreateAudit() {
                 <div className="new-inspection-box">
 
                   <img
-                    src={`${API}/uploads/${item.currentInspection.image}`}
-                    alt=""
-                    className="inspection-image"
-                  />
+  src={
+    item.currentInspection.image.startsWith("http")
+      ? item.currentInspection.image
+      : `${API}/${item.currentInspection.image}`
+  }
+  alt="Inspection"
+  className="inspection-image"
+/>
 
                   <textarea
                     className="textarea"
@@ -496,10 +500,14 @@ function CreateAudit() {
                   >
 
                     <img
-                      src={`${API}/uploads/${inspection.image}`}
-                      alt=""
-                      className="saved-preview-image"
-                    />
+  src={
+    inspection.image.startsWith("http")
+      ? inspection.image
+      : `${API}/${inspection.image}`
+  }
+  alt="Inspection"
+  className="saved-preview-image"
+/>
 
                     <div className="saved-preview-info">
 

@@ -211,10 +211,14 @@ function SavedAuditsPage() {
                               >
 
                                 <img
-                                  src={`${API}/uploads/${inspection.image}`}
-                                  alt=""
-                                  className="saved-inspection-image"
-                                />
+  src={
+    inspection.image.startsWith("http")
+      ? inspection.image
+      : `${API}/${inspection.image}`
+  }
+  alt="Inspection"
+  className="saved-inspection-image"
+/>
 
                                 <p>
 
