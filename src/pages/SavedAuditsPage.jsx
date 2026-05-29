@@ -211,11 +211,7 @@ function SavedAuditsPage() {
                               >
 
                                 <img
-  src={
-    inspection.image.startsWith("http")
-      ? inspection.image
-      : `${API}/${inspection.image}`
-  }
+  src={`${API}/${inspection.image}`}
   alt="Inspection"
   className="saved-inspection-image"
 />

@@ -427,11 +427,7 @@ function CreateAudit() {
                 <div className="new-inspection-box">
 
                   <img
-  src={
-    item.currentInspection.image.startsWith("http")
-      ? item.currentInspection.image
-      : `${API}/${item.currentInspection.image}`
-  }
+  src={`${API}/${item.currentInspection.image}`}
   alt="Inspection"
   className="inspection-image"
 />
@@ -500,11 +496,7 @@ function CreateAudit() {
                   >
 
                     <img
-  src={
-    inspection.image.startsWith("http")
-      ? inspection.image
-      : `${API}/${inspection.image}`
-  }
+  src={`${API}/${inspection.image}`}
   alt="Inspection"
   className="saved-preview-image"
 />
