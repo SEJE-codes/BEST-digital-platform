@@ -22,7 +22,7 @@ function SavedAuditsPage() {
   ] = useState(null);
 
   // =====================================
-  // FETCH
+  // FETCH AUDITS
   // =====================================
 
   const fetchAudits =
@@ -44,6 +44,8 @@ function SavedAuditsPage() {
       } catch (error) {
 
         console.log(error);
+
+        setAudits([]);
       }
     };
 
@@ -54,11 +56,19 @@ function SavedAuditsPage() {
   }, []);
 
   // =====================================
-  // DELETE
+  // DELETE AUDIT
   // =====================================
 
   const deleteAudit =
     async (id) => {
+
+      const confirmDelete =
+        window.confirm(
+          "Voulez-vous supprimer cet audit ?"
+        );
+
+      if (!confirmDelete)
+        return;
 
       try {
 
@@ -71,11 +81,15 @@ function SavedAuditsPage() {
       } catch (error) {
 
         console.log(error);
+
+        alert(
+          "Erreur de suppression"
+        );
       }
     };
 
   // =====================================
-  // PARSE
+  // PARSE CHECKLIST
   // =====================================
 
   const parseChecklist =
@@ -94,6 +108,10 @@ function SavedAuditsPage() {
       }
     };
 
+  // =====================================
+  // UI
+  // =====================================
+
   return (
 
     <Layout title="Audits Sauvegardés">
@@ -108,6 +126,16 @@ function SavedAuditsPage() {
                 audit.checklist
               );
 
+            // SHOW ONLY EQUIPMENT
+            // WITH INSPECTIONS
+
+            const filteredChecklist =
+              checklist.filter(
+                (item) =>
+                  item.inspections &&
+                  item.inspections.length > 0
+              );
+
             return (
 
               <div
@@ -115,17 +143,33 @@ function SavedAuditsPage() {
                 className="modern-card"
               >
 
+                {/* TITLE */}
+
                 <h2>
-                  {audit.company_name}
+                  {
+                    audit.company_name
+                  }
                 </h2>
 
-                <p>
-                  Inspecteur :
+                <p
+                  style={{
+                    marginTop: "8px",
+                  }}
+                >
+
+                  <strong>
+                    Inspecteur :
+                  </strong>
+
                   {" "}
+
                   {
                     audit.inspector_name
                   }
+
                 </p>
+
+                {/* ACTIONS */}
 
                 <div className="audit-actions">
 
@@ -184,72 +228,105 @@ function SavedAuditsPage() {
 
                   <div className="equipment-list">
 
-                    {checklist.map(
-                      (
-                        item,
-                        index
-                      ) => (
+                    {filteredChecklist.length >
+                    0 ? (
 
-                        <div
-                          key={index}
-                          className="equipment-card"
-                        >
+                      filteredChecklist.map(
+                        (
+                          item,
+                          index
+                        ) => (
 
-                          <h3>
-                            {item.equipment}
-                          </h3>
+                          <div
+                            key={index}
+                            className="equipment-card"
+                          >
 
-                          {item.inspections.map(
-                            (
-                              inspection,
-                              i
-                            ) => (
+                            {/* EQUIPMENT */}
 
-                              <div
-                                key={i}
-                                className="saved-inspection-card"
-                              >
+                            <h3
+                              style={{
+                                marginBottom:
+                                  "18px",
+                              }}
+                            >
 
-                                <img
-  src={`${API}/${inspection.image}`}
-  alt="Inspection"
-  className="saved-inspection-image"
-/>
+                              {
+                                item.equipment
+                              }
 
-                                <p>
+                            </h3>
 
-                                  <strong>
-                                    Commentaire :
-                                  </strong>
+                            {/* INSPECTIONS */}
 
-                                  {" "}
+                            {item.inspections.map(
+                              (
+                                inspection,
+                                i
+                              ) => (
 
-                                  {
-                                    inspection.comment
-                                  }
+                                <div
+                                  key={i}
+                                  className="saved-inspection-card"
+                                >
 
-                                </p>
+                                  {/* IMAGE */}
 
-                                <p>
+                                  {inspection.image && (
 
-                                  <strong>
-                                    Date :
-                                  </strong>
+                                    <img
+                                      src={`${API}/uploads/${inspection.image}`}
+                                      alt="Inspection"
+                                      className="saved-inspection-image"
+                                    />
 
-                                  {" "}
+                                  )}
 
-                                  {
-                                    inspection.datetime
-                                  }
+                                  {/* DETAILS */}
 
-                                </p>
+                                  <div className="saved-preview-info">
 
-                              </div>
-                            )
-                          )}
+                                    <p>
 
-                        </div>
+                                      <strong>
+                                        Commentaire :
+                                      </strong>
+
+                                      {" "}
+
+                                      {
+                                        inspection.comment ||
+                                        "Aucun commentaire"
+                                      }
+
+                                    </p>
+
+                                    <small>
+
+                                      {
+                                        inspection.datetime ||
+                                        "Date inconnue"
+                                      }
+
+                                    </small>
+
+                                  </div>
+
+                                </div>
+                              )
+                            )}
+
+                          </div>
+                        )
                       )
+
+                    ) : (
+
+                      <p>
+
+                        Aucun équipement inspecté
+
+                      </p>
                     )}
 
                   </div>
