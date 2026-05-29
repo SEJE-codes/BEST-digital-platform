@@ -275,10 +275,10 @@ function SavedAuditsPage() {
                                   {inspection.image && (
 
                                     <img
-  src={`${API}/uploads/${inspection.image}`}
-  alt="Inspection"
-  className="saved-inspection-image"
-/>
+                                      src={`${API}/${inspection.image}`}
+                                      alt="Inspection"
+                                      className="saved-inspection-image"
+                                    />
 
                                   )}
 
