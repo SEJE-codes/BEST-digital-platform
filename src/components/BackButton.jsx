@@ -10,7 +10,7 @@ function BackButton() {
       className="back-btn"
       onClick={() => navigate(-1)}
     >
-      ← Retour
+      Retour
     </button>
 
   );
