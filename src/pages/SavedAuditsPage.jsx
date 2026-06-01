@@ -4,7 +4,7 @@ import {
 } from "react";
 
 import axios from "axios";
-
+import BackButton from "../components/BackButton";
 import Layout from "../components/Layout";
 
 const API =
@@ -115,7 +115,8 @@ function SavedAuditsPage() {
   return (
 
     <Layout title="Audits Sauvegardés">
-
+      
+      <BackButton />
       <div className="audit-grid">
 
         {audits.map(

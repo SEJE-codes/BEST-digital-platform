@@ -591,3 +591,63 @@ label{
     gap:15px;
   }
 }
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.back-btn {
+
+  border: none;
+
+  padding: 12px 18px;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  font-weight: 700;
+
+  color: white;
+
+  margin-bottom: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #334155,
+      #1e293b
+    );
+
+  transition: 0.3s ease;
+}
+
+.back-btn:hover {
+
+  transform: translateY(-2px);
+
+  opacity: 0.9;
+}
+
+.offline-banner {
+
+  position: fixed;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  background: #dc2626;
+
+  color: white;
+
+  text-align: center;
+
+  padding: 10px;
+
+  z-index: 9999;
+
+  font-weight: 700;
+}

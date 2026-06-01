@@ -8,6 +8,7 @@ import Layout from "../components/Layout";
 import {
   Link,
 } from "react-router-dom";
+import BackButton from "../components/BackButton";
 
 const API =
   import.meta.env.VITE_API_URL ||
@@ -149,7 +150,9 @@ function AprReportsPage() {
   return (
 
     <Layout title="Rapports APR">
+    <BackButton />
 
+  <div className="audit-grid"></div>
       {/* CONTENT */}
 
       <div className="container">

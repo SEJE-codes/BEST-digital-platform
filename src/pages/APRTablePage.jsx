@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import BackButton from "../components/BackButton";
+import BackButton from "../components/BackButton";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -574,7 +576,8 @@ function APRTablePage() {
   // =====================================
 
   return (
-    <div className="app-layout">
+      <div className="app-layout">
+        <BackButton />
       {/* SIDEBAR */}
 
       <div className="sidebar">
