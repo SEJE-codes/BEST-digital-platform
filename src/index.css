@@ -666,3 +666,26 @@ label{
   object-fit:contain;
   margin-bottom:15px;
 }
+
+.table-container{
+  width:100%;
+  overflow-x:auto;
+}
+
+.apr-table{
+  width:100%;
+  min-width:1800px;
+  border-collapse:collapse;
+}
+
+.apr-table th,
+.apr-table td{
+  padding:12px;
+  border:1px solid rgba(255,255,255,0.1);
+
+  white-space:normal;
+  word-break:break-word;
+
+  min-width:150px;
+  vertical-align:top;
+}
