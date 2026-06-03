@@ -651,3 +651,18 @@ label{
 
   font-weight: 700;
 }
+
+.login-logo{
+  width:120px;
+  height:auto;
+  display:block;
+  margin:0 auto 20px;
+  object-fit:contain;
+}
+
+.sidebar-logo{
+  width:80px;
+  height:80px;
+  object-fit:contain;
+  margin-bottom:15px;
+}

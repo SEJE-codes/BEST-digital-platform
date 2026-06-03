@@ -148,6 +148,12 @@ function LoginPage() {
           }}
         >
 
+          <img
+  src="/best.png"
+  alt="BEST Logo"
+  className="login-logo"
+/>
+
           <h1>
             Welcome Back
           </h1>

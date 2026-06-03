@@ -59,11 +59,21 @@ function Layout({
 
         <div className="sidebar-top">
 
-          <h2 className="brand">
-            BEST SARL
-          </h2>
+  <img
+    src="/best.png"
+    alt="BEST Logo"
+    className="sidebar-logo"
+  />
 
-        </div>
+  <h1 className="brand">
+    BEST
+  </h1>
+
+  <p className="brand-subtitle">
+    Digital Audit Platform
+  </p>
+
+</div>
 
         <div className="sidebar-menu">
 
