@@ -433,12 +433,9 @@ function CreateAudit() {
                 <div className="new-inspection-box">
 
                   <img
-  src={`${API}/uploads/${item.currentInspection.image}`}
+  src={item.currentInspection.image}
   alt="Inspection"
   className="inspection-image"
-  onError={(e) => {
-    console.log("Image failed:", e.target.src);
-  }}
 />
 
                   <textarea
@@ -505,12 +502,9 @@ function CreateAudit() {
                   >
 
                     <img
-  src={`${API}/uploads/${inspection.image}`}
+  src={inspection.image}
   alt="Inspection"
   className="saved-preview-image"
-  onError={(e) => {
-    console.log("Image failed:", e.target.src);
-  }}
 />
 
                     <div className="saved-preview-info">

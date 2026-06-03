@@ -276,12 +276,9 @@ function SavedAuditsPage() {
                                   {inspection.image && (
 
                                     <img
-  src={`${API}/uploads/${inspection.image}`}
+  src={inspection.image}
   alt="Inspection"
   className="saved-inspection-image"
-  onError={(e) => {
-    console.log("Image failed:", e.target.src);
-  }}
 />
 
                                   )}
