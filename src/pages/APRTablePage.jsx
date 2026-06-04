@@ -983,18 +983,14 @@ function APRTablePage() {
     row.initial_color?.toLowerCase()
   }`}
 >
+  {row.initial_risk}
 </td>
 
           {/* EXISTING MEASURES */}
 
           <td className="multiline-cell">
-
-            {String(
-              row.existing_measures || ""
-            )
-              .replace(/-/g, "\n-")}
-
-          </td>
+  {row.existing_measures}
+</td>
 
           {/* RESIDUAL RISK */}
 
@@ -1003,6 +999,7 @@ function APRTablePage() {
     row.residual_color?.toLowerCase()
   }`}
 >
+  {row.residual_risk}
 </td>
 
           {/* SCENARIO */}
