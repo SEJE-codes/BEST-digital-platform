@@ -829,14 +829,14 @@ function APRTablePage() {
               <br />
 
               <a
-                href={`${API}/api/pdf/export/${reportId}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <button className="btn btn-green">
-                  Télécharger PDF
-                </button>
-              </a>
+  href={`${API}/api/apr-pdf/export/${reportId}`}
+  target="_blank"
+  rel="noreferrer"
+>
+  <button className="btn btn-green">
+    Télécharger PDF
+  </button>
+</a>
             </>
           )}
 

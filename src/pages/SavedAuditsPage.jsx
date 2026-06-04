@@ -194,18 +194,14 @@ function SavedAuditsPage() {
                   </button>
 
                   <a
-                    href={`${API}/api/pdf/export/${audit.id}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-
-                    <button className="btn btn-green">
-
-                      PDF
-
-                    </button>
-
-                  </a>
+  href={`${API}/api/audit-pdf/export/${audit.id}`}
+  target="_blank"
+  rel="noreferrer"
+>
+  <button className="btn btn-green">
+    PDF
+  </button>
+</a>
 
                   <button
                     className="btn btn-danger"
