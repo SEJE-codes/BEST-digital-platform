@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import BackButton from "../components/BackButton";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -17,6 +19,53 @@ function APRTablePage() {
   const [generatedTable, setGeneratedTable] = useState([]);
   const [reportId, setReportId] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const downloadPDF = async () => {
+
+  const element =
+    document.getElementById("apr-table-pdf");
+
+  if (!element) {
+    alert("Tableau introuvable");
+    return;
+  }
+
+  const canvas =
+    await html2canvas(element, {
+      scale: 2,
+      useCORS: true
+    });
+
+  const imgData =
+    canvas.toDataURL("image/png");
+
+  const pdf =
+    new jsPDF({
+      orientation: "landscape",
+      unit: "mm",
+      format: "a3"
+    });
+
+  const pdfWidth =
+    pdf.internal.pageSize.getWidth();
+
+  const pdfHeight =
+    (canvas.height * pdfWidth) /
+    canvas.width;
+
+  pdf.addImage(
+    imgData,
+    "PNG",
+    0,
+    0,
+    pdfWidth,
+    pdfHeight
+  );
+
+  pdf.save(
+    `APR_Report_${reportId}.pdf`
+  );
+};
 
   // =====================================
   // BLOCS DATA
@@ -828,15 +877,12 @@ function APRTablePage() {
               <br />
               <br />
 
-              <a
-  href={`${API}/api/apr-pdf/export/${reportId}`}
-  target="_blank"
-  rel="noreferrer"
+              <button
+  className="btn btn-green"
+  onClick={downloadPDF}
 >
-  <button className="btn btn-green">
-    Télécharger PDF
-  </button>
-</a>
+  Télécharger PDF
+</button>
             </>
           )}
 
@@ -847,7 +893,10 @@ function APRTablePage() {
               <br />
               <br />
 
-              <div className="apr-table-container">
+              <div
+  id="apr-table-pdf"
+  className="apr-table-container"
+>
 
   <table className="apr-table">
 

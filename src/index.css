@@ -720,3 +720,33 @@ label{
 .multiline-cell{
   white-space:pre-wrap;
 }
+
+.apr-table-container {
+  overflow-x: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.apr-table {
+  width: max-content;
+  min-width: 2500px;
+  border-collapse: collapse;
+  color: black;
+}
+
+.apr-table th {
+  background: #e6dcc0;
+  color: black;
+  font-size: 12px;
+}
+
+.apr-table td {
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.multiline-cell {
+  white-space: pre-wrap;
+}
