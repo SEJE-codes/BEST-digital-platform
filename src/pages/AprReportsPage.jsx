@@ -113,18 +113,6 @@ function AprReportsPage() {
     };
 
   // ===================================
-  // OPEN PDF
-  // ===================================
-
-  const openPDF = (id) => {
-
-    window.open(
-      `${API}/api/apr/export/${id}`,
-      "_blank"
-    );
-  };
-
-  // ===================================
   // SAFE PARSE
   // ===================================
 
@@ -268,42 +256,42 @@ function AprReportsPage() {
 
                     <div className="audit-actions">
 
-                      <button
-                        className="btn"
-                        onClick={() =>
-                          setOpenedReport(
-                            openedReport === r.id
-                              ? null
-                              : r.id
-                          )
-                        }
-                      >
+  <button
+    className="btn"
+    onClick={() =>
+      setOpenedReport(
+        openedReport === r.id
+          ? null
+          : r.id
+      )
+    }
+  >
+    {openedReport === r.id
+      ? "Hide"
+      : "View"}
+  </button>
 
-                        {openedReport === r.id
-                          ? "Hide"
-                          : "View"}
+  {r.pdf_url && (
+    <a
+      href={r.pdf_url}
+      target="_blank"
+      rel="noreferrer"
+      className="btn btn-green"
+    >
+      Télécharger PDF
+    </a>
+  )}
 
-                      </button>
+  <button
+    className="btn btn-danger"
+    onClick={() =>
+      deleteReport(r.id)
+    }
+  >
+    Supprimer
+  </button>
 
-                      <button
-                        className="btn btn-green"
-                        onClick={() =>
-                          openPDF(r.id)
-                        }
-                      >
-                        PDF
-                      </button>
-
-                      <button
-                        className="btn btn-danger"
-                        onClick={() =>
-                          deleteReport(r.id)
-                        }
-                      >
-                        Supprimer
-                      </button>
-
-                    </div>
+</div>
 
                     {/* TABLE PREVIEW */}
 

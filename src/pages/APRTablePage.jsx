@@ -30,11 +30,22 @@ function APRTablePage() {
     return;
   }
 
-  const canvas =
-    await html2canvas(element, {
-      scale: 2,
-      useCORS: true
-    });
+  const canvas = await html2canvas(
+  element,
+  {
+    scale:3,
+
+    width: element.scrollWidth,
+
+    height: element.scrollHeight,
+
+    windowWidth:
+      element.scrollWidth,
+
+    windowHeight:
+      element.scrollHeight
+  }
+);
 
   const imgData =
     canvas.toDataURL("image/png");

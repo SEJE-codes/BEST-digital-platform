@@ -681,13 +681,25 @@ label{
 .apr-table th,
 .apr-table td{
   padding:12px;
-  border:1px solid rgba(255,255,255,0.1);
 
-  white-space:normal;
-  word-break:break-word;
+  border:2px solid #000;
 
-  min-width:150px;
   vertical-align:top;
+
+  white-space:pre-wrap;
+
+  word-break:break-word;
+}
+
+.apr-table th{
+  background:#e6dcc0;
+  color:black;
+  font-weight:700;
+}
+
+.apr-table td{
+  background:white;
+  color:black;
 }
 
 .multiline-cell{
