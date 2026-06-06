@@ -53,7 +53,7 @@ function LoginPage() {
         res.data.token
       );
 
-      navigate("/dashboard");
+      navigate("/create-audit");
 
     } catch (error) {
 

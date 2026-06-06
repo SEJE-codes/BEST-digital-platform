@@ -12,7 +12,6 @@ import {
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import BackButton from "./components/BackButton";
-import DashboardPage from "./pages/DashboardPage";
 
 import CreateAudit from "./pages/CreateAudit";
 import SavedAuditsPage from "./pages/SavedAuditsPage";
@@ -104,19 +103,6 @@ useEffect(() => {
         <Route
           path="/register"
           element={<RegisterPage />}
-        />
-
-        {/* ===================== */}
-        {/* DASHBOARD */}
-        {/* ===================== */}
-
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <DashboardPage />
-            </PrivateRoute>
-          }
         />
 
         {/* ===================== */}

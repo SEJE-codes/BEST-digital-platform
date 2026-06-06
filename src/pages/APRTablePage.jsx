@@ -33,17 +33,19 @@ function APRTablePage() {
   const canvas = await html2canvas(
   element,
   {
-    scale:3,
+    scale:4,
 
-    width: element.scrollWidth,
+    useCORS:true,
 
-    height: element.scrollHeight,
+    backgroundColor:"#ffffff",
 
-    windowWidth:
-      element.scrollWidth,
+    width:element.scrollWidth,
 
-    windowHeight:
-      element.scrollHeight
+    height:element.scrollHeight,
+
+    windowWidth:element.scrollWidth,
+
+    windowHeight:element.scrollHeight
   }
 );
 
@@ -64,14 +66,39 @@ function APRTablePage() {
     (canvas.height * pdfWidth) /
     canvas.width;
 
+  let heightLeft = pdfHeight;
+let position = 0;
+
+pdf.addImage(
+  imgData,
+  "PNG",
+  0,
+  position,
+  pdfWidth,
+  pdfHeight
+);
+
+heightLeft -= pdf.internal.pageSize.getHeight();
+
+while(heightLeft > 0){
+
+  position =
+    heightLeft - pdfHeight;
+
+  pdf.addPage();
+
   pdf.addImage(
     imgData,
     "PNG",
     0,
-    0,
+    position,
     pdfWidth,
     pdfHeight
   );
+
+  heightLeft -=
+    pdf.internal.pageSize.getHeight();
+}
 
   pdf.save(
     `APR_Report_${reportId}.pdf`

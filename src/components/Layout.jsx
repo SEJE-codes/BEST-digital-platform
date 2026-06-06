@@ -14,11 +14,6 @@ function Layout({
   const menuItems = [
 
     {
-      name: "Dashboard",
-      path: "/dashboard",
-    },
-
-    {
       name: "Collecte de données",
       path: "/create-audit",
     },
@@ -66,7 +61,7 @@ function Layout({
   />
 
   <h1 className="brand">
-    BEST
+    BEST SARL
   </h1>
 
   <p className="brand-subtitle">
@@ -124,17 +119,12 @@ function Layout({
             <h1 className="page-title">
               {title}
             </h1>
-
-            <p className="page-subtitle">
-              QSHE Digital Management System
-            </p>
-
           </div>
 
           <div className="topbar-user">
 
             <div className="user-avatar">
-              QS
+              best.png
             </div>
 
           </div>
