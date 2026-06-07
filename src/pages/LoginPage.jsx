@@ -48,12 +48,14 @@ function LoginPage() {
           }
         );
 
+      if (res.data.token) {
       localStorage.setItem(
         "token",
         res.data.token
       );
 
       navigate("/create-audit");
+    }
 
     } catch (error) {
 
@@ -194,17 +196,17 @@ function LoginPage() {
             />
 
             <button
-              className="btn"
-              style={{
-                width: "100%",
-              }}
-            >
-
-              {loading
-                ? "Please wait..."
-                : "Login"}
-
-            </button>
+  className="btn"
+  disabled={loading}
+  style={{
+    width: "100%",
+    opacity: loading ? 0.7 : 1
+  }}
+>
+  {loading
+    ? "Please wait..."
+    : "Login"}
+</button>
 
           </form>
 

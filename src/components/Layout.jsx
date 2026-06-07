@@ -124,7 +124,7 @@ function Layout({
           <div className="topbar-user">
 
             <div className="user-avatar">
-              best.png
+              QS
             </div>
 
           </div>
