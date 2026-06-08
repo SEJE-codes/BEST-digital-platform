@@ -674,68 +674,64 @@ label{
 
 .apr-table{
   width:100%;
-  min-width:2500px;
+  min-width:2200px;
 
   border-collapse:collapse;
 
-  border:3px solid #ffffff;
-
-  background:white;
-
-  color:black;
+  border:2px solid #000;
 }
 
 .apr-table th{
+  border:2px solid #000;
 
-  border:2px solid black;
+  background:#e6dcc0;
 
-  background:#e5e7eb;
-
-  color:black;
+  color:#000;
 
   padding:12px;
 
   text-align:center;
-
-  font-weight:700;
 }
 
 .apr-table td{
-
-  border:2px solid black;
+  border:2px solid #000;
 
   padding:10px;
 
   vertical-align:top;
 
-  word-break:break-word;
+  white-space:pre-wrap;
+
+  color:#000;
+
+  background:white;
 }
 
 .risk-cell{
-
-  font-weight:bold;
-
+  font-weight:700;
   text-align:center;
-
-  min-width:100px;
 }
 
-.green{
+.risk-cell.green{
   background:#00b050;
   color:white;
 }
 
-.yellow{
+.risk-cell.yellow{
   background:#ffff00;
   color:black;
 }
 
-.orange{
+.risk-cell.orange{
   background:#ff9900;
   color:white;
 }
 
-.red{
+.risk-cell.red{
   background:#ff0000;
   color:white;
+}
+
+.multiline-cell{
+  white-space:pre-wrap;
 }

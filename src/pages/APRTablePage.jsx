@@ -2,8 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import BackButton from "../components/BackButton";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -19,91 +17,6 @@ function APRTablePage() {
   const [generatedTable, setGeneratedTable] = useState([]);
   const [reportId, setReportId] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  const downloadPDF = async () => {
-
-  const element =
-    document.getElementById("apr-table-pdf");
-
-  if (!element) {
-    alert("Tableau introuvable");
-    return;
-  }
-
-  const canvas = await html2canvas(
-  element,
-  {
-    scale:4,
-
-    useCORS:true,
-
-    backgroundColor:"#ffffff",
-
-    width:element.scrollWidth,
-
-    height:element.scrollHeight,
-
-    windowWidth:element.scrollWidth,
-
-    windowHeight:element.scrollHeight
-  }
-);
-
-  const imgData =
-    canvas.toDataURL("image/png");
-
-  const pdf =
-    new jsPDF({
-      orientation: "landscape",
-      unit: "mm",
-      format: "a3"
-    });
-
-  const pdfWidth =
-    pdf.internal.pageSize.getWidth();
-
-  const pdfHeight =
-    (canvas.height * pdfWidth) /
-    canvas.width;
-
-  let heightLeft = pdfHeight;
-let position = 0;
-
-pdf.addImage(
-  imgData,
-  "PNG",
-  0,
-  position,
-  pdfWidth,
-  pdfHeight
-);
-
-heightLeft -= pdf.internal.pageSize.getHeight();
-
-while(heightLeft > 0){
-
-  position =
-    heightLeft - pdfHeight;
-
-  pdf.addPage();
-
-  pdf.addImage(
-    imgData,
-    "PNG",
-    0,
-    position,
-    pdfWidth,
-    pdfHeight
-  );
-
-  heightLeft -=
-    pdf.internal.pageSize.getHeight();
-}
-
-  pdf.save(
-    `APR_Report_${reportId}.pdf`
-  );
-};
 
   // =====================================
   // BLOCS DATA
@@ -637,17 +550,32 @@ while(heightLeft > 0){
     try {
       setLoading(true);
 
-      const res = await axios.post(
-        `${API}/api/ai/generate-apr`,
-        {
-          zone: selectedZone,
-          blocs: blocEntries,
-        }
-      );
+      const payload = {
+
+  zone: selectedZone,
+
+  blocs: [...blocEntries],
+
+};
+
+const res =
+  await axios.post(
+    `${API}/api/ai/generate-apr`,
+    payload
+  );
 
       setGeneratedTable(res.data.table || []);
-      setReportId(res.data.reportId || null);
-      navigate("/apr-reports");
+
+const reportId =
+  res.data.reportId;
+
+setReportId(reportId);
+
+await axios.get(
+  `${API}/api/apr-pdf/generate/${reportId}`
+);
+
+navigate("/apr-reports");
     } catch (error) {
       console.log(error);
 
@@ -679,12 +607,6 @@ while(heightLeft > 0){
           </div>
 
           <div className="sidebar-menu">
-            <Link
-              to="/dashboard"
-              className="sidebar-link"
-            >
-              Dashboard
-            </Link>
 
             <Link
               to="/create-audit"
@@ -907,22 +829,6 @@ while(heightLeft > 0){
               ? "Generating..."
               : "Générer APR"}
           </button>
-
-          {/* PDF */}
-
-          {reportId && (
-            <>
-              <br />
-              <br />
-
-              <button
-  className="btn btn-green"
-  onClick={downloadPDF}
->
-  Télécharger PDF
-</button>
-            </>
-          )}
 
           {/* GENERATED TABLE */}
 
