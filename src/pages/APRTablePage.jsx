@@ -1008,6 +1008,7 @@ navigate("/apr-reports");
               {row.scenario}
 
             </span>
+            </td>
 
             {reportId && (
 
@@ -1043,8 +1044,6 @@ navigate("/apr-reports");
   </div>
 
 )}
-
-          </td>
 
         </tr>
       ))}
