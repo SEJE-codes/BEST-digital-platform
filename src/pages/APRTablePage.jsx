@@ -776,9 +776,7 @@ navigate("/apr-reports");
                     key={index}
                     className="equipment-card"
                   >
-                    <h3>
-                      {item.code}
-                    </h3>
+                   <h3>{item.installation}</h3>
 
                     <p>
                       <strong>
@@ -914,7 +912,7 @@ navigate("/apr-reports");
           {/* N° */}
 
           <td>
-            {row.zone}
+            {row.bloc}
           </td>
 
           {/* INSTALLATION */}
@@ -1010,6 +1008,41 @@ navigate("/apr-reports");
               {row.scenario}
 
             </span>
+
+            {reportId && (
+
+  <div
+    style={{
+      marginTop: "20px",
+      display: "flex",
+      gap: "10px",
+    }}
+  >
+
+    <button
+      className="btn btn-green"
+      onClick={() =>
+        window.open(
+          `${API}/api/apr/export/${reportId}`,
+          "_blank"
+        )
+      }
+    >
+      Générer PDF
+    </button>
+
+    <button
+      className="btn"
+      onClick={() =>
+        navigate("/apr-reports")
+      }
+    >
+      Voir les rapports APR
+    </button>
+
+  </div>
+
+)}
 
           </td>
 

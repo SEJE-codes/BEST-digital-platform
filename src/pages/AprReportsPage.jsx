@@ -134,20 +134,18 @@ function AprReportsPage() {
                     </button>
 
                     {/* PDF DOWNLOAD */}
-                    {r.pdf_url ? (
-                      <a
-                        href={r.pdf_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="btn btn-green"
-                      >
-                        Télécharger PDF
-                      </a>
-                    ) : (
-                      <span style={{ color: "gray" }}>
-                        PDF en cours...
-                      </span>
-                    )}
+                    {r.pdf_url && (
+
+  <a
+    href={r.pdf_url}
+    target="_blank"
+    rel="noreferrer"
+    className="btn btn-green"
+  >
+    Télécharger PDF
+  </a>
+
+)}
 
                     <button
                       className="btn btn-danger"
