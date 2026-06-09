@@ -17,17 +17,30 @@ function AprReportsPage() {
   // FETCH REPORTS
   // ==============================
   const fetchReports = async () => {
-    try {
-      const res = await axios.get(`${API}/api/apr-reports`);
 
-      setReports(Array.isArray(res.data) ? res.data : []);
+    try {
+
+      const res = await axios.get(
+        `${API}/api/apr-reports`
+      );
+
+      setReports(
+        Array.isArray(res.data)
+          ? res.data
+          : []
+      );
 
     } catch (error) {
+
       console.log(error);
       setReports([]);
+
     } finally {
+
       setLoading(false);
+
     }
+
   };
 
   useEffect(() => {
@@ -35,88 +48,187 @@ function AprReportsPage() {
   }, []);
 
   // ==============================
+  // GENERATE PDF
+  // ==============================
+  const generatePDF = async (id) => {
+
+    try {
+
+      const res = await axios.get(
+        `${API}/api/apr-pdf/generate/${id}`
+      );
+
+      if (res.data?.pdf_url) {
+
+        window.open(
+          res.data.pdf_url,
+          "_blank"
+        );
+
+        fetchReports();
+
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert(
+        "Erreur lors de la génération du PDF"
+      );
+
+    }
+
+  };
+
+  // ==============================
   // DELETE REPORT
   // ==============================
   const deleteReport = async (id) => {
-    const confirmDelete = window.confirm("Supprimer ce rapport ?");
+
+    const confirmDelete =
+      window.confirm(
+        "Supprimer ce rapport ?"
+      );
+
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`${API}/api/apr-reports/${id}`);
+
+      await axios.delete(
+        `${API}/api/apr-reports/${id}`
+      );
+
       fetchReports();
+
     } catch (error) {
+
       console.log(error);
-      alert("Suppression échouée");
+
+      alert(
+        "Suppression échouée"
+      );
+
     }
+
   };
 
   // ==============================
   // SAFE PARSE
   // ==============================
   const parseData = (data) => {
+
     try {
-      return typeof data === "string" ? JSON.parse(data) : data;
+
+      return typeof data === "string"
+        ? JSON.parse(data)
+        : data;
+
     } catch {
+
       return [];
+
     }
+
   };
 
   // ==============================
   // RENDER
   // ==============================
   return (
+
     <Layout title="Rapports APR">
+
       <BackButton />
 
       <div className="container">
 
-        {/* LOADING */}
         {loading && (
+
           <div className="empty-state">
-            <h2>Chargement des rapports...</h2>
+            <h2>
+              Chargement des rapports...
+            </h2>
           </div>
+
         )}
 
-        {/* EMPTY */}
-        {!loading && reports.length === 0 && (
+        {!loading &&
+          reports.length === 0 && (
+
           <div className="empty-state">
-            <h2>Aucun rapport trouvé</h2>
-            <p>Générer un tableau APR.</p>
+
+            <h2>
+              Aucun rapport trouvé
+            </h2>
+
+            <p>
+              Générer un tableau APR.
+            </p>
+
           </div>
+
         )}
 
-        {/* REPORT LIST */}
         <div className="audit-grid">
 
           {!loading &&
             reports.map((r) => {
 
-              const table = parseData(r.data);
+              const table =
+                parseData(r.data);
 
               return (
-                <div key={r.id} className="audit-card modern-card">
+
+                <div
+                  key={r.id}
+                  className="audit-card modern-card"
+                >
 
                   {/* HEADER */}
                   <div className="card-top">
+
                     <div>
-                      <div className="badge">RAPPORT APR</div>
-                      <h2 className="card-title">Zone {r.zone}</h2>
+
+                      <div className="badge">
+                        RAPPORT APR
+                      </div>
+
+                      <h2 className="card-title">
+                        Zone {r.zone}
+                      </h2>
+
                     </div>
+
                   </div>
 
                   {/* INFO */}
                   <div className="info-grid">
+
                     <div className="info-box">
+
                       <span>Date:</span>
+
                       <strong>
-                        {new Date(r.created_at).toLocaleDateString()}
+
+                        {new Date(
+                          r.created_at
+                        ).toLocaleDateString()}
+
                       </strong>
+
                     </div>
 
                     <div className="info-box">
+
                       <span>Rows:</span>
-                      <strong>{table.length}</strong>
+
+                      <strong>
+                        {table.length}
+                      </strong>
+
                     </div>
+
                   </div>
 
                   {/* ACTIONS */}
@@ -126,30 +238,48 @@ function AprReportsPage() {
                       className="btn"
                       onClick={() =>
                         setOpenedReport(
-                          openedReport === r.id ? null : r.id
+                          openedReport === r.id
+                            ? null
+                            : r.id
                         )
                       }
                     >
-                      {openedReport === r.id ? "Hide" : "View"}
+                      {openedReport === r.id
+                        ? "Hide"
+                        : "View"}
                     </button>
 
-                    {/* PDF DOWNLOAD */}
+                    {!r.pdf_url && (
+
+                      <button
+                        className="btn btn-green"
+                        onClick={() =>
+                          generatePDF(r.id)
+                        }
+                      >
+                        Generate PDF
+                      </button>
+
+                    )}
+
                     {r.pdf_url && (
 
-  <a
-    href={r.pdf_url}
-    target="_blank"
-    rel="noreferrer"
-    className="btn btn-green"
-  >
-    Télécharger PDF
-  </a>
+                      <a
+                        href={r.pdf_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="btn btn-green"
+                      >
+                        Télécharger PDF
+                      </a>
 
-)}
+                    )}
 
                     <button
                       className="btn btn-danger"
-                      onClick={() => deleteReport(r.id)}
+                      onClick={() =>
+                        deleteReport(r.id)
+                      }
                     >
                       Supprimer
                     </button>
@@ -158,17 +288,23 @@ function AprReportsPage() {
 
                   {/* PREVIEW */}
                   {openedReport === r.id && (
+
                     <div className="apr-preview">
 
-                      {table.map((row, index) => (
+                      {table.map(
+                        (row, index) => (
 
-                        <div key={index} className="preview-row">
+                        <div
+                          key={index}
+                          className="preview-row"
+                        >
 
                           <div className="preview-header">
 
-                            <h3>{row.bloc}</h3>
+                            <h3>
+                              {row.bloc}
+                            </h3>
 
-                            {/* INITIAL RISK */}
                             <span
                               className={`risk-badge ${
                                 row.initial_color?.toLowerCase() || ""
@@ -179,14 +315,40 @@ function AprReportsPage() {
 
                           </div>
 
-                          <p><strong>Installation:</strong> {row.installation}</p>
-                          <p><strong>Event:</strong> {row.central_event}</p>
-                          <p><strong>Risk:</strong> {row.risks}</p>
-                          <p><strong>Measures:</strong> {row.existing_measures}</p>
-
-                          {/* RESIDUAL RISK */}
                           <p>
-                            <strong>Residual Risk:</strong>{" "}
+                            <strong>
+                              Installation:
+                            </strong>{" "}
+                            {row.installation}
+                          </p>
+
+                          <p>
+                            <strong>
+                              Event:
+                            </strong>{" "}
+                            {row.central_event}
+                          </p>
+
+                          <p>
+                            <strong>
+                              Risk:
+                            </strong>{" "}
+                            {row.risks}
+                          </p>
+
+                          <p>
+                            <strong>
+                              Measures:
+                            </strong>{" "}
+                            {row.existing_measures}
+                          </p>
+
+                          <p>
+
+                            <strong>
+                              Residual Risk:
+                            </strong>{" "}
+
                             <span
                               className={`risk-badge ${
                                 row.residual_color?.toLowerCase() || ""
@@ -194,22 +356,31 @@ function AprReportsPage() {
                             >
                               {row.residual_risk}
                             </span>
+
                           </p>
 
                         </div>
+
                       ))}
 
                     </div>
+
                   )}
 
                 </div>
+
               );
+
             })}
+
         </div>
 
       </div>
+
     </Layout>
+
   );
+
 }
 
 export default AprReportsPage;
