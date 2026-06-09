@@ -249,31 +249,29 @@ function AprReportsPage() {
                         : "View"}
                     </button>
 
-                    {!r.pdf_url && (
+                    {r.pdf_url ? (
 
-                      <button
-                        className="btn btn-green"
-                        onClick={() =>
-                          generatePDF(r.id)
-                        }
-                      >
-                        Generate PDF
-                      </button>
+  <a
+    href={r.pdf_url}
+    target="_blank"
+    rel="noreferrer"
+    className="btn btn-green"
+  >
+    Télécharger PDF
+  </a>
 
-                    )}
+) : (
 
-                    {r.pdf_url && (
+  <button
+    className="btn btn-green"
+    onClick={() =>
+      generatePDF(r.id)
+    }
+  >
+    Générer PDF
+  </button>
 
-                      <a
-                        href={r.pdf_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="btn btn-green"
-                      >
-                        Télécharger PDF
-                      </a>
-
-                    )}
+)}
 
                     <button
                       className="btn btn-danger"

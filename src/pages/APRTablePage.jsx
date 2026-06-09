@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import BackButton from "../components/BackButton";
-
+import { useNavigate } from "react-router-dom";
 const API = import.meta.env.VITE_API_URL;
 
 function APRTablePage() {
@@ -17,6 +17,7 @@ function APRTablePage() {
   const [generatedTable, setGeneratedTable] = useState([]);
   const [reportId, setReportId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   // =====================================
   // BLOCS DATA
@@ -541,49 +542,52 @@ function APRTablePage() {
   // GENERATE APR
   // =====================================
 
-  const generateAPR = async () => {
-    if (blocEntries.length === 0) {
-      alert("Ajoutez au moins un bloc");
-      return;
-    }
+const generateAPR = async () => {
 
-    try {
-      setLoading(true);
+  if (blocEntries.length === 0) {
+    alert("Ajoutez au moins un bloc");
+    return;
+  }
 
-      const payload = {
+  try {
 
-  zone: selectedZone,
+    setLoading(true);
 
-  blocs: [...blocEntries],
+    const res = await axios.post(
+      `${API}/api/ai/generate-apr`,
+      {
+        zone: blocEntries[0].zone,
+        blocs: blocEntries,
+      }
+    );
+
+    setGeneratedTable(
+      res.data.table || []
+    );
+
+    setReportId(
+      res.data.reportId
+    );
+
+    alert(
+      "APR générée avec succès"
+    );
+
+  } catch (error) {
+
+    console.log(error);
+
+    alert(
+      "Erreur lors de la génération APR"
+    );
+
+  } finally {
+
+    setLoading(false);
+
+  }
 
 };
-
-const res =
-  await axios.post(
-    `${API}/api/ai/generate-apr`,
-    payload
-  );
-
-      setGeneratedTable(res.data.table || []);
-
-const reportId =
-  res.data.reportId;
-
-setReportId(reportId);
-
-await axios.get(
-  `${API}/api/apr-pdf/generate/${reportId}`
-);
-
-navigate("/apr-reports");
-    } catch (error) {
-      console.log(error);
-
-      alert("Génération APR échouée");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // =====================================
   // UI
@@ -1020,8 +1024,7 @@ navigate("/apr-reports");
             </>
           )}
 
-        {reportId && (
-
+{reportId && (
   <div
     style={{
       marginTop: "20px",
@@ -1029,19 +1032,6 @@ navigate("/apr-reports");
       gap: "10px",
     }}
   >
-
-    <button
-      className="btn btn-green"
-      onClick={() =>
-        window.open(
-          `${API}/api/apr/export/${reportId}`,
-          "_blank"
-        )
-      }
-    >
-      Générer PDF
-    </button>
-
     <button
       className="btn"
       onClick={() =>
@@ -1050,9 +1040,7 @@ navigate("/apr-reports");
     >
       Voir les rapports APR
     </button>
-
   </div>
-
 )}
 
         </div>
