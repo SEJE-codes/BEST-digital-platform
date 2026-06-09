@@ -1009,8 +1009,18 @@ navigate("/apr-reports");
 
             </span>
             </td>
+            </tr>
+      ))}
 
-            {reportId && (
+    </tbody>
+
+  </table>
+
+</div>
+            </>
+          )}
+
+        {reportId && (
 
   <div
     style={{
@@ -1045,16 +1055,6 @@ navigate("/apr-reports");
 
 )}
 
-        </tr>
-      ))}
-
-    </tbody>
-
-  </table>
-
-</div>
-            </>
-          )}
         </div>
       </div>
     </div>
