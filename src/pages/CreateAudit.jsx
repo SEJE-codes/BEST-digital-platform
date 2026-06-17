@@ -338,8 +338,6 @@ function CreateAudit() {
   return (
 
     <Layout title="Collecte des données">
-     
-     <BackButton />
 
   <div className="audit-grid">
     

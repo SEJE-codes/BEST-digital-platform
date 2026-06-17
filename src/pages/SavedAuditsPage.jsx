@@ -114,8 +114,6 @@ function SavedAuditsPage() {
   return (
 
     <Layout title="Audits Sauvegardés">
-      
-      <BackButton />
       <div className="audit-grid">
 
         {audits.map(

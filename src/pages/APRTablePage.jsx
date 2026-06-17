@@ -594,7 +594,6 @@ const generateAPR = async () => {
 
   return (
       <div className="app-layout">
-        <BackButton />
       {/* SIDEBAR */}
 
       <div className="sidebar">

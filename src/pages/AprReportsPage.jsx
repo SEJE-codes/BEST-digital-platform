@@ -138,8 +138,6 @@ function AprReportsPage() {
 
     <Layout title="Rapports APR">
 
-      <BackButton />
-
       <div className="container">
 
         {loading && (
