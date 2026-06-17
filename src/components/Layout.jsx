@@ -121,14 +121,6 @@ function Layout({
             </h1>
           </div>
 
-          <div className="topbar-user">
-
-            <div className="user-avatar">
-              QS
-            </div>
-
-          </div>
-
         </div>
 
         {/* PAGE CONTENT */}

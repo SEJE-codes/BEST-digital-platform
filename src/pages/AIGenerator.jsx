@@ -3,7 +3,6 @@ import {
 } from "react";
 
 import axios from "axios";
-import BackButton from "../components/BackButton";
 import { Link } from "react-router-dom";
 
 function AIGenerator() {

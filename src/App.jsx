@@ -11,7 +11,6 @@ import {
 
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import BackButton from "./components/BackButton";
 
 import CreateAudit from "./pages/CreateAudit";
 import SavedAuditsPage from "./pages/SavedAuditsPage";

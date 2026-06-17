@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../components/Layout";
-import BackButton from "../components/BackButton";
 
 const API =
   import.meta.env.VITE_API_URL ||
