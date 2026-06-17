@@ -75,183 +75,79 @@ function RegisterPage() {
     };
 
   return (
+  <div className="auth-container">
 
-    <div
-      className="page"
-      style={{
-        display: "flex",
-        minHeight: "100vh",
-      }}
-    >
+    <div className="auth-card">
 
-      {/* ========================= */}
-      {/* LEFT */}
-      {/* ========================= */}
+      <img
+        src="/best.png"
+        alt="BEST Logo"
+        className="login-logo"
+      />
 
-      <div
-        style={{
-          flex: 1,
-          background:
-            "linear-gradient(135deg,#0f172a,#1e3a8a)",
-          color: "black",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "50px",
-        }}
-      >
+      <h1 className="auth-title">
+        Create Account
+      </h1>
 
-        <div>
+      <p className="auth-subtitle">
+        Register to get started
+      </p>
 
-          <h1
-            style={{
-              fontSize: "48px",
-              marginBottom: "20px",
-              color: "white",
-            }}
-          >
-            QSHE DIGITAL
-          </h1>
+      <form onSubmit={register}>
 
-          <p
-            style={{
-              fontSize: "18px",
-              lineHeight: "1.8",
-              color: "#cbd5e1",
-              maxWidth: "500px",
-            }}
-          >
-            Create your account and
-            start managing industrial
-            audits, inspections and
-            APR reports professionally.
-          </p>
+        <input
+          type="text"
+          placeholder="Full Name"
+          className="input"
+          value={name}
+          onChange={(e) =>
+            setName(e.target.value)
+          }
+        />
 
-        </div>
+        <input
+          type="email"
+          placeholder="Email Address"
+          className="input"
+          value={email}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
+        />
 
-      </div>
+        <input
+          type="password"
+          placeholder="Password"
+          className="input"
+          value={password}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
+        />
 
-      {/* ========================= */}
-      {/* RIGHT */}
-      {/* ========================= */}
-
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "40px",
-          background: "#f4f7fb",
-        }}
-      >
-
-        <div
-          className="card"
-          style={{
-            width: "100%",
-            maxWidth: "450px",
-            padding: "40px",
-          }}
+        <button
+          className="btn"
+          style={{ width: "100%" }}
         >
+          {loading
+            ? "Please wait..."
+            : "Register"}
+        </button>
 
-          <h1>
-            Create Account
-          </h1>
+      </form>
 
-          <p
-            style={{
-              marginBottom: "30px",
-              color: "#64748b",
-            }}
-          >
-            Register to continue
-          </p>
+      <p className="auth-footer">
+        Already have an account?
 
-          <form
-            onSubmit={register}
-          >
-
-            <input
-              type="text"
-              placeholder="Full Name"
-              className="input"
-              value={name}
-              onChange={(e) =>
-                setName(
-                  e.target.value
-                )
-              }
-            />
-
-            <input
-              type="email"
-              placeholder="Email Address"
-              className="input"
-              value={email}
-              onChange={(e) =>
-                setEmail(
-                  e.target.value
-                )
-              }
-            />
-
-            <input
-              type="password"
-              placeholder="Password"
-              className="input"
-              value={password}
-              onChange={(e) =>
-                setPassword(
-                  e.target.value
-                )
-              }
-            />
-
-            <button
-              className="btn"
-              style={{
-                width: "100%",
-              }}
-            >
-
-              {loading
-                ? "Please wait..."
-                : "Register"}
-
-            </button>
-
-          </form>
-
-          <br />
-
-          <p
-            style={{
-              textAlign: "center",
-            }}
-          >
-
-            Already have an account?
-
-            <Link
-              to="/"
-              style={{
-                marginLeft: "5px",
-                color: "#2563eb",
-                fontWeight: "600",
-              }}
-            >
-              Login
-            </Link>
-
-          </p>
-
-        </div>
-
-      </div>
+        <Link to="/">
+          Login
+        </Link>
+      </p>
 
     </div>
-  );
+
+  </div>
+);
 }
 
 export default RegisterPage;

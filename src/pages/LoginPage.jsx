@@ -70,175 +70,69 @@ function LoginPage() {
   };
 
   return (
+  <div className="auth-container">
 
-    <div
-      className="page"
-      style={{
-        display: "flex",
-        minHeight: "100vh",
-      }}
-    >
+    <div className="auth-card">
 
-      {/* ========================= */}
-      {/* LEFT SIDE */}
-      {/* ========================= */}
+      <img
+        src="/best.png"
+        alt="BEST Logo"
+        className="login-logo"
+      />
 
-      <div
-        style={{
-          flex: 1,
-          background:
-            "linear-gradient(135deg,#0f172a,#1e3a8a)",
-          color: "white",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "50px",
-        }}
-      >
+      <h1 className="auth-title">
+        Welcome Back
+      </h1>
 
-        <div>
+      <p className="auth-subtitle">
+        Login to continue
+      </p>
 
-          <h1
-            style={{
-              fontSize: "48px",
-              marginBottom: "20px",
-              color: "white",
-            }}
-          >
-            QSHE DIGITAL
-          </h1>
+      <form onSubmit={login}>
 
-          <p
-            style={{
-              fontSize: "18px",
-              lineHeight: "1.8",
-              color: "#cbd5e1",
-              maxWidth: "500px",
-            }}
-          >
-            Intelligent industrial
-            inspection and APR
-            management platform for
-            modern companies.
-          </p>
+        <input
+          type="email"
+          placeholder="Email Address"
+          className="input"
+          value={email}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
+        />
 
-        </div>
+        <input
+          type="password"
+          placeholder="Password"
+          className="input"
+          value={password}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
+        />
 
-      </div>
-
-      {/* ========================= */}
-      {/* RIGHT SIDE */}
-      {/* ========================= */}
-
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "40px",
-          background: "#f4f7fb",
-        }}
-      >
-
-        <div
-          className="card"
-          style={{
-            width: "100%",
-            maxWidth: "450px",
-            padding: "40px",
-          }}
+        <button
+          className="btn"
+          style={{ width: "100%" }}
         >
+          {loading
+            ? "Please wait..."
+            : "Login"}
+        </button>
 
-          <img
-  src="/best.png"
-  alt="BEST Logo"
-  className="login-logo"
-/>
+      </form>
 
-          <h1>
-            Welcome Back
-          </h1>
+      <p className="auth-footer">
+        Don't have an account?
 
-          <p
-            style={{
-              marginBottom: "30px",
-              color: "#64748b",
-            }}
-          >
-            Login to continue
-          </p>
-
-          <form onSubmit={login}>
-
-            <input
-              type="email"
-              placeholder="Email Address"
-              className="input"
-              value={email}
-              onChange={(e) =>
-                setEmail(
-                  e.target.value
-                )
-              }
-            />
-
-            <input
-              type="password"
-              placeholder="Password"
-              className="input"
-              value={password}
-              onChange={(e) =>
-                setPassword(
-                  e.target.value
-                )
-              }
-            />
-
-            <button
-  className="btn"
-  disabled={loading}
-  style={{
-    width: "100%",
-    opacity: loading ? 0.7 : 1
-  }}
->
-  {loading
-    ? "Please wait..."
-    : "Login"}
-</button>
-
-          </form>
-
-          <br />
-
-          <p
-            style={{
-              textAlign: "center",
-            }}
-          >
-
-            Don't have an account?
-
-            <Link
-              to="/register"
-              style={{
-                marginLeft: "5px",
-                color: "#2563eb",
-                fontWeight: "600",
-              }}
-            >
-              Register
-            </Link>
-
-          </p>
-
-        </div>
-
-      </div>
+        <Link to="/register">
+          Register
+        </Link>
+      </p>
 
     </div>
-  );
+
+  </div>
+);
 }
 
 export default LoginPage;
